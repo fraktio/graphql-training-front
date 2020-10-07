@@ -1,12 +1,12 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 import { AddPersonForm } from '../components/person'
 import { PersonList, PersonType } from '../components/person/PersonList'
 import { Button } from '../components/layout/form/input'
+import { useSelector } from '../ducks'
 
 interface Props {
-  isDark: boolean
-  onToggleDark: () => void
   persons: readonly Person[]
   onAddPerson: (firstName: string, lastName: string) => void
   onRemovePerson: (uuid: string) => void
@@ -14,7 +14,14 @@ interface Props {
 
 type Person = IsHireablePerson & PersonType
 
-export function IndexPage({ isDark, onToggleDark, persons, onAddPerson, onRemovePerson }: Props) {
+export function IndexPage({ persons, onAddPerson, onRemovePerson }: Props) {
+  const dispatch = useDispatch()
+  const { isDark } = useSelector((state) => state.settings)
+
+  const handleToggleDark = () => {
+    dispatch({ type: 'TOGGLE_DARK' })
+  }
+
   const hireablePersons = persons.filter(isHireable)
   const notHireablePersons = persons.filter((person) => !isHireable(person))
 
@@ -23,9 +30,9 @@ export function IndexPage({ isDark, onToggleDark, persons, onAddPerson, onRemove
       <header>
         <h2>Here's your persons:</h2>
 
-        {!isDark && <Button onClick={onToggleDark}>Dark mode</Button>}
+        {!isDark && <Button onClick={handleToggleDark}>Dark mode</Button>}
 
-        {isDark && <Button onClick={onToggleDark}>White mode</Button>}
+        {isDark && <Button onClick={handleToggleDark}>White mode</Button>}
       </header>
 
       <section>
