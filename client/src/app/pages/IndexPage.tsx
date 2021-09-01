@@ -12,7 +12,8 @@ interface Props {
   onRemovePerson: (uuid: string) => void
 }
 
-type Person = IsHireablePerson & PersonType
+export type Person = IsHireablePerson & PersonType
+
 
 export function IndexPage({ persons, onAddPerson, onRemovePerson }: Props) {
   const dispatch = useDispatch()

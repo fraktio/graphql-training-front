@@ -1,19 +1,49 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
+import { gql, useQuery } from '@apollo/client';
+
 import { IndexPage, PersonPage, NotFoundPage } from './pages'
-import { useSelector } from './ducks'
+import { Person } from './pages/IndexPage';
+
+const GET_PERSONS = gql`
+  query {
+    persons(pagination: {}) {
+      ... on PersonsPaginationResponse {
+        pageInfo {
+          hasNextPage
+        }
+        edges {
+          cursor
+          node {
+            UUID
+            firstName
+            lastName
+            birthday
+            nationality
+            gender
+          }
+        }
+      }
+    }
+  }
+`
+
 
 export function App() {
+
   const dispatch = useDispatch()
+
+  /* OLD WAY: State in redux -> REST
+
   const { persons, isLoading, isError } = useSelector((state) => state.person)
 
-
   useEffect(() => {
-    //   dispatch({ type: 'FETCH_PERSONS' })
+    dispatch({ type: 'FETCH_PERSONS' })
   }, [dispatch])
 
+  */
   const handleRemovePerson = (uuid: string) => {
     dispatch({ type: 'REMOVE_PERSON', payload: { uuid } })
   }
@@ -22,17 +52,28 @@ export function App() {
     dispatch({ type: 'ADD_PERSON', payload: { firstName, lastName } })
   }
 
+  const { loading, error, data } = useQuery(GET_PERSONS);
+
+  console.log(data)
+
+
+  const persons = !loading ? data.persons.edges.map((edge: { node: object; }) => {
+    const person = { ...edge.node }
+    return { ...person, age: 0 } as Person
+  }) : []
+
+
   return (
     <>
       <header>
         <h1>Welcome to Fraktio's React training!</h1>
       </header>
 
-      {isLoading && <div>Loading..</div>}
+      {loading && <div>Loading..</div>}
 
-      {isError && <div>Oops! Something went wrong.</div>}
+      {error && <div>Oops! Something went wrong.</div>}
 
-      {!isLoading && !isError && (
+      {!loading && !error && (
         <Router>
           <Switch>
             <Route exact path="/">
