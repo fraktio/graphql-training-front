@@ -9,8 +9,9 @@ export function App() {
   const dispatch = useDispatch()
   const { persons, isLoading, isError } = useSelector((state) => state.person)
 
+
   useEffect(() => {
-    dispatch({ type: 'FETCH_PERSONS' })
+    //   dispatch({ type: 'FETCH_PERSONS' })
   }, [dispatch])
 
   const handleRemovePerson = (uuid: string) => {

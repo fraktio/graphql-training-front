@@ -10,7 +10,8 @@
     "tsc": "tsc",
     "test": "react-scripts test",
     "test-once": "cross-env CI=true react-scripts test",
-    "test-all": "yarn lint && yarn tsc && yarn test-once"
+    "test-all": "yarn lint && yarn tsc && yarn test-once",
+    "create-fragment-types": "yarn run-script src/script/create-fragment-types/index.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -30,6 +31,10 @@
   "dependencies": {
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-error": "^1.1.13",
+    "apollo-link-http": "^1.5.17",
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "emotion-theming": "^10.0.27",
@@ -39,6 +44,7 @@
     "immutable": "^4.0.0-rc.12",
     "polished": "^4.0.1",
     "react": "^16.13.1",
+    "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
     "react-final-form": "^6.5.1",
     "react-hook-form": "^6.9.2",

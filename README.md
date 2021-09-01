@@ -1,4 +1,4 @@
-# React training
+# Graphql Front - React training 
 
 ## Introduction
 
