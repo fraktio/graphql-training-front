@@ -1,34 +1,17 @@
 import {
   InMemoryCache,
-  // IntrospectionFragmentMatcher
-} from 'apollo-cache-inmemory'
-import { ApolloClient } from 'apollo-client'
-import { ApolloLink } from 'apollo-link'
-import { onError } from 'apollo-link-error'
-import { HttpLink } from 'apollo-link-http'
+} from '@apollo/client'
+import { ApolloClient } from '@apollo/client'
+import { ApolloLink } from '@apollo/client'
+import { onError } from "@apollo/client/link/error";
+import { HttpLink } from '@apollo/client'
 
 interface Config {
   GRAPHQL_API_URL: string | undefined
 }
 
 export function createApolloClient(config: Config): ApolloClient<{}> {
-    /*
-  let introspectionQueryResultData
 
-  try {
-    introspectionQueryResultData = require('./fragmentTypes.json')
-  } catch (e) {
-    throw new Error(
-      'Fragment types are not generated. You should run: yarn create-fragment-types'
-    )
-  }
-
-  const fragmentMatcher = new IntrospectionFragmentMatcher({
-    introspectionQueryResultData,
-  })
-
-  const cache = new InMemoryCache({ fragmentMatcher })
- */
     const cache = new InMemoryCache()
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
