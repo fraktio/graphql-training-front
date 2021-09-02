@@ -8,11 +8,25 @@ import { IndexPage, PersonPage, NotFoundPage } from './pages'
 import { Person } from './pages/IndexPage';
 import { AddedPerson } from './components/person/AddPersonForm';
 
+
+const PERSON = gql`
+  fragment Person on Adult {
+    UUID
+    firstName
+    lastName
+    phone
+    birthday
+    nationality
+    gender
+  }
+`
+
 const GET_PERSONS = gql`
+  ${PERSON}
   query {
     persons(
       pagination: {
-        limit: 200
+        limit: 20
       }
       sort: [{ field: createdAt, order: DESC }, { field: lastName, order: ASC }]
     ) {
@@ -23,12 +37,7 @@ const GET_PERSONS = gql`
         edges {
           cursor
           node {
-            UUID
-            firstName
-            lastName
-            birthday
-            nationality
-            gender
+           ...Person
           }
         }
       }
@@ -81,6 +90,7 @@ export function App() {
   const { loading, error, data } = useQuery(GET_PERSONS);
 
   const persons = !loading ? data.persons.edges.map((edge: { node: object; }) => {
+    console.log({ ...edge.node })
     const person = { ...edge.node }
     return { ...person, age: 0 } as Person
   }) : []
