@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-import { gql, useQuery, useMutation } from '@apollo/client';
+import { gql, useQuery, useMutation, ApolloError } from '@apollo/client';
 
 import { IndexPage, PersonPage, NotFoundPage } from './pages'
 import { Person } from './pages/IndexPage';
@@ -65,16 +65,20 @@ const ADD_PERSON = gql`
 
 
 export function App() {
-
-  const [addPerson, addPersonResponse] = useMutation(ADD_PERSON,)
-
-  console.log('Person added response', addPersonResponse)
-
   const dispatch = useDispatch()
 
   const handleRemovePerson = (uuid: string) => {
     dispatch({ type: 'REMOVE_PERSON', payload: { uuid } })
   }
+
+
+  const handleMutationError = (error: ApolloError) => {
+    console.log('OH NOES ERROR HAPPENED IN ADD PERSON MUTATION!')
+    console.log(error)
+  }
+
+  const [addPerson, addPersonResponse] = useMutation(ADD_PERSON, { onError: handleMutationError, errorPolicy: 'all' })
+  console.log('Person added response', addPersonResponse)
 
   const handleAddPerson = (newPerson: AddedPerson) => {
     addPerson({
@@ -86,10 +90,13 @@ export function App() {
     })
   }
 
+  const handleQueryError = (error: ApolloError) => {
+    console.log('OH NOES ERROR HAPPENED IN PERSONS QUERY!')
+    console.log(error)
+  }
+  const { loading, error, data } = useQuery(GET_PERSONS, { onError: handleQueryError, errorPolicy: 'all' });
 
-  const { loading, error, data } = useQuery(GET_PERSONS);
-
-  const persons = !loading ? data.persons.edges.map((edge: { node: object; }) => {
+  const persons = (!loading && !error) ? data.persons.edges.map((edge: { node: object; }) => {
     console.log({ ...edge.node })
     const person = { ...edge.node }
     return { ...person, age: 0 } as Person
@@ -104,7 +111,7 @@ export function App() {
 
       {loading && <div>Loading..</div>}
 
-      {error && <div>Oops! Something went wrong.</div>}
+      {(error || addPersonResponse.error) && <div>Oops! Something went wrong.</div>}
 
       {!loading && !error && (
         <Router>

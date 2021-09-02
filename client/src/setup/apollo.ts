@@ -12,7 +12,7 @@ interface Config {
 
 export function createApolloClient(config: Config): ApolloClient<{}> {
 
-    const cache = new InMemoryCache()
+  const cache = new InMemoryCache()
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
