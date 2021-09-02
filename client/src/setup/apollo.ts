@@ -22,6 +22,7 @@ export function createApolloClient(config: Config): ApolloClient<{}> {
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
         )
         // tslint:enable
+        return null
       })
     }
 
@@ -42,6 +43,6 @@ export function createApolloClient(config: Config): ApolloClient<{}> {
 
   return new ApolloClient({
     cache,
-    link: ApolloLink.from([errorLink, httpLink]), 
+    link: ApolloLink.from([ errorLink, httpLink]), 
   })
 }
