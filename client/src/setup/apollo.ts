@@ -3,7 +3,7 @@ import {
 } from '@apollo/client'
 import { ApolloClient } from '@apollo/client'
 import { ApolloLink } from '@apollo/client'
-import { onError } from "@apollo/client/link/error";
+//import { onError } from "@apollo/client/link/error";
 import { HttpLink } from '@apollo/client'
 
 interface Config {
@@ -12,26 +12,8 @@ interface Config {
 
 export function createApolloClient(config: Config): ApolloClient<{}> {
 
-    const cache = new InMemoryCache()
+  const cache = new InMemoryCache()
 
-  const errorLink = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors) {
-      graphQLErrors.map(({ message, locations, path }) => {
-        // tslint:disable:no-console
-        console.error(
-          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-        )
-        // tslint:enable
-      })
-    }
-
-    if (networkError) {
-      // tslint:disable:no-console
-      console.error(`[Network error]: ${networkError}`)
-      // tslint:enable
-    }
-  })
-  
   if(!config.GRAPHQL_API_URL) {
       throw new Error(
       'GRAPHQL_API_URL is not defined'
@@ -42,6 +24,6 @@ export function createApolloClient(config: Config): ApolloClient<{}> {
 
   return new ApolloClient({
     cache,
-    link: ApolloLink.from([errorLink, httpLink]), 
+    link: ApolloLink.from([ httpLink]), 
   })
 }
