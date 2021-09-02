@@ -8,7 +8,8 @@ export const Input = styled.input(
     background: lighten(0.4, 'blue'),
     color: 'black',
     fontSize: 16,
-    borderRadius: props.theme.border.radius.medium
+    borderRadius: props.theme.border.radius.medium,
+    margin: "0.25rem 0 0.25rem 1rem"
   }),
   (props) =>
     props.disabled && {

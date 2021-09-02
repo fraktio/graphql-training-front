@@ -5,10 +5,11 @@ import { AddPersonForm } from '../components/person'
 import { PersonList, PersonType } from '../components/person/PersonList'
 import { Button } from '../components/layout/form/input'
 import { useSelector } from '../ducks'
+import { AddedPerson } from '../components/person/AddPersonForm'
 
 interface Props {
   persons: readonly Person[]
-  onAddPerson: (firstName: string, lastName: string) => void
+  onAddPerson: (newPerson: AddedPerson) => void
   onRemovePerson: (uuid: string) => void
 }
 
@@ -66,3 +67,5 @@ interface IsHireablePerson {
 function isHireable(person: IsHireablePerson): boolean {
   return person.age > 16
 }
+
+

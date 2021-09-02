@@ -2,14 +2,20 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 
 import { IndexPage, PersonPage, NotFoundPage } from './pages'
 import { Person } from './pages/IndexPage';
+import { AddedPerson } from './components/person/AddPersonForm';
 
 const GET_PERSONS = gql`
   query {
-    persons(pagination: {}) {
+    persons(
+      pagination: {
+        limit: 200
+      }
+      sort: [{ field: createdAt, order: DESC }, { field: lastName, order: ASC }]
+    ) {
       ... on PersonsPaginationResponse {
         pageInfo {
           hasNextPage
@@ -30,32 +36,49 @@ const GET_PERSONS = gql`
   }
 `
 
+const ADD_PERSON = gql`
+  mutation AddPerson($input: AddPersonInput!) {
+    addPerson(input: $input) {
+      __typename
+      ...on AddPersonSuccess {
+        person {
+          firstName
+          lastName
+        }
+      }
+      ... on FailureOutput {
+        message
+        field
+      }
+    }
+  }
+`
+
 
 export function App() {
 
+  const [addPerson, addPersonResponse] = useMutation(ADD_PERSON,)
+
+  console.log('Person added response', addPersonResponse)
+
   const dispatch = useDispatch()
 
-  /* OLD WAY: State in redux -> REST
-
-  const { persons, isLoading, isError } = useSelector((state) => state.person)
-
-  useEffect(() => {
-    dispatch({ type: 'FETCH_PERSONS' })
-  }, [dispatch])
-
-  */
   const handleRemovePerson = (uuid: string) => {
     dispatch({ type: 'REMOVE_PERSON', payload: { uuid } })
   }
 
-  const handleAddPerson = (firstName: string, lastName: string) => {
-    dispatch({ type: 'ADD_PERSON', payload: { firstName, lastName } })
+  const handleAddPerson = (newPerson: AddedPerson) => {
+    addPerson({
+      variables: {
+        input: {
+          person: newPerson
+        }
+      }
+    })
   }
 
+
   const { loading, error, data } = useQuery(GET_PERSONS);
-
-  console.log(data)
-
 
   const persons = !loading ? data.persons.edges.map((edge: { node: object; }) => {
     const person = { ...edge.node }
