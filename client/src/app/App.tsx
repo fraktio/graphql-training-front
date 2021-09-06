@@ -18,6 +18,7 @@ const PERSON = gql`
     birthday
     nationality
     gender
+    age @client
   }
 `
 
@@ -98,7 +99,7 @@ export function App() {
   console.log('RECEIVED FIELDS', data)
   const persons = (!loading && !error) ? data.persons.edges.map((edge: { node: object; }) => {
     const person = { ...edge.node, uuid: edge.node.UUID }
-    return { ...person, age: 0 } as Person
+    return { ...person } as Person
   }) : []
 
 

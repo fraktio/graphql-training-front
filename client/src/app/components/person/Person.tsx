@@ -15,6 +15,7 @@ export interface PersonType {
   firstName: string
   lastName: string
   age: number
+
 }
 
 export function Person({ person, onRemove }: Props) {
@@ -26,7 +27,7 @@ export function Person({ person, onRemove }: Props) {
           <li>
             name: {person.firstName} {person.lastName}
           </li>
-          <li>age: {person.age.toFixed(1)}</li>
+          <li>age: {person.age.toFixed(0)}</li>
         </ul>
       </Link>
 

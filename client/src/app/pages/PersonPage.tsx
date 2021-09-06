@@ -21,8 +21,9 @@ export function PersonPage({ person }: Props) {
         <li>
           name: {person.firstName} {person.lastName}
         </li>
-        <li>age: {person.age.toFixed(1)}</li>
+        <li>age: {person.age.toFixed(0)}</li>
       </ul>
+
     </PersonContainer>
   )
 }
