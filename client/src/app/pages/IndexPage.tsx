@@ -1,10 +1,8 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 
 import { AddPersonForm } from '../components/person'
 import { PersonList, PersonType } from '../components/person/PersonList'
 import { Button } from '../components/layout/form/input'
-import { useSelector } from '../ducks'
 import { AddedPerson } from '../components/person/AddPersonForm'
 
 interface Props {
@@ -17,11 +15,11 @@ export type Person = IsHireablePerson & PersonType
 
 
 export function IndexPage({ persons, onAddPerson, onRemovePerson }: Props) {
-  const dispatch = useDispatch()
-  const { isDark } = useSelector((state) => state.settings)
 
+  console.log('is Dark needs to have state!')
+  const isDark = false;
   const handleToggleDark = () => {
-    dispatch({ type: 'TOGGLE_DARK' })
+    console.log('toggle dark')
   }
 
   const hireablePersons = persons.filter(isHireable)

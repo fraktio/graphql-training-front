@@ -6,10 +6,10 @@ import { App } from './App'
 import image from './assets/social_media_recruitment.png'
 import { theme } from './theme/theme'
 
-import { useSelector } from './ducks'
 
 export function AppRoot() {
-  const { isDark } = useSelector((state) => state.settings)
+  console.log('is Dark needs to have state!')
+  const isDark = false;
 
   useEffect(() => {
     document.title = isDark ? `It's dark!` : `It's white!`
