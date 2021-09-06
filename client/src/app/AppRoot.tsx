@@ -5,11 +5,12 @@ import { ThemeProvider } from 'emotion-theming'
 import { App } from './App'
 import image from './assets/social_media_recruitment.png'
 import { theme } from './theme/theme'
+import { isDarkMode } from './cache/reactiveVariables'
+import { useReactiveVar } from '@apollo/client';
 
 
 export function AppRoot() {
-  console.log('is Dark needs to have state!')
-  const isDark = false;
+  const isDark = useReactiveVar(isDarkMode);
 
   useEffect(() => {
     document.title = isDark ? `It's dark!` : `It's white!`

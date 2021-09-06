@@ -4,6 +4,8 @@ import { AddPersonForm } from '../components/person'
 import { PersonList, PersonType } from '../components/person/PersonList'
 import { Button } from '../components/layout/form/input'
 import { AddedPerson } from '../components/person/AddPersonForm'
+import { isDarkMode } from '../cache/reactiveVariables'
+import { useReactiveVar } from '@apollo/client';
 
 interface Props {
   persons: readonly Person[]
@@ -16,10 +18,10 @@ export type Person = IsHireablePerson & PersonType
 
 export function IndexPage({ persons, onAddPerson, onRemovePerson }: Props) {
 
-  console.log('is Dark needs to have state!')
-  const isDark = false;
+  const isDark = useReactiveVar(isDarkMode);
   const handleToggleDark = () => {
-    console.log('toggle dark')
+    console.log('tussi', isDarkMode())
+    isDarkMode(!isDarkMode())
   }
 
   const hireablePersons = persons.filter(isHireable)
