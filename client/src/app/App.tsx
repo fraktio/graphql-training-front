@@ -95,10 +95,9 @@ export function App() {
     console.log(error)
   }
   const { loading, error, data } = useQuery(GET_PERSONS, { onError: handleQueryError, errorPolicy: 'all' });
-
+  console.log('RECEIVED FIELDS', data)
   const persons = (!loading && !error) ? data.persons.edges.map((edge: { node: object; }) => {
-    console.log({ ...edge.node })
-    const person = { ...edge.node }
+    const person = { ...edge.node, uuid: edge.node.UUID }
     return { ...person, age: 0 } as Person
   }) : []
 
