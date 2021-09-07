@@ -20,7 +20,6 @@ export function IndexPage({ persons, onAddPerson, onRemovePerson }: Props) {
 
   const isDark = useReactiveVar(isDarkMode);
   const handleToggleDark = () => {
-    console.log('tussi', isDarkMode())
     isDarkMode(!isDarkMode())
   }
 

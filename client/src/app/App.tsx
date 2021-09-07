@@ -1,19 +1,21 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import { useQuery, useMutation, ApolloError } from '@apollo/client';
+import { useApolloClient, useQuery, useMutation, ApolloError } from '@apollo/client';
 
 import { IndexPage, PersonPage, NotFoundPage } from './pages'
 import { Person } from './pages/IndexPage';
 import { AddedPerson } from './components/person/AddPersonForm';
 import { ADD_PERSON, GET_PERSONS } from './pages/queries';
 import { DirectCachePage } from './pages/DirectCachePage';
+import { removePersonFromCache } from './cache/removePersonFromCache';
 
 
 export function App() {
+  const client = useApolloClient();
 
   const handleRemovePerson = (uuid: string) => {
-    console.log('remove not implemented', uuid)
+    removePersonFromCache(client, uuid)
   }
 
 

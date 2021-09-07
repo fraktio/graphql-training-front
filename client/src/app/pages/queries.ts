@@ -1,6 +1,23 @@
 import { gql } from '@apollo/client';
 
-const PERSON = gql`
+export const PETS = gql`
+  query Pets {
+    pets {
+      id
+      name
+    }
+  }
+`
+export const PET = gql`
+  query Pet($id: Int!) {
+    pet(id: $id) {
+      id
+      name
+    }
+  }
+`
+
+export const PERSON = gql`
   fragment Person on Adult {
     UUID
     firstName
@@ -15,7 +32,7 @@ const PERSON = gql`
 
 export const GET_PERSONS = gql`
   ${PERSON}
-  query {
+  query GetPersons {
     persons(
       pagination: {
         limit: 20
