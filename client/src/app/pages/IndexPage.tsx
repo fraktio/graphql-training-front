@@ -1,70 +1,52 @@
 import React from 'react'
 
-import { AddPersonForm } from '../components/person'
-import { PersonList, PersonType } from '../components/person/PersonList'
-import { Button } from '../components/layout/form/input'
-import { AddedPerson } from '../components/person/AddPersonForm'
-import { isDarkMode } from '../cache/reactiveVariables'
-import { useReactiveVar } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
+import { UploadFileForm, FileFormData } from '../components/file/UploadFileForm';
+import { FileCard, File } from '../components/file/FileCard';
 
-interface Props {
-  persons: readonly Person[]
-  onAddPerson: (newPerson: AddedPerson) => void
-  onRemovePerson: (uuid: string) => void
+const UPLOAD_MUTATION = gql`
+  mutation($file: Upload!) {
+    fileMetadata(file: $file) {
+      ... on FileMetadataSuccess {
+        metadata {
+          encoding
+          filename
+          mimetype
+        }
+      }
+    }
+  }
+`
+
+type FileDataResponseSuccess = {
+  fileMetadata?: {
+    metadata?: File
+  }
 }
 
-export type Person = IsHireablePerson & PersonType
+export function IndexPage() {
+  const [uploadFile, { data, error }] = useMutation<FileDataResponseSuccess>(UPLOAD_MUTATION);
 
-
-export function IndexPage({ persons, onAddPerson, onRemovePerson }: Props) {
-
-  const isDark = useReactiveVar(isDarkMode);
-  const handleToggleDark = () => {
-    isDarkMode(!isDarkMode())
+  const handleUploadFile = (data: FileFormData) => {
+    uploadFile({ variables: { file: data.file[0] }})
   }
-
-  const hireablePersons = persons.filter(isHireable)
-  const notHireablePersons = persons.filter((person) => !isHireable(person))
 
   return (
     <div>
       <header>
-        <h2>Here's your persons:</h2>
-
-        {!isDark && <Button onClick={handleToggleDark}>Dark mode</Button>}
-
-        {isDark && <Button onClick={handleToggleDark}>White mode</Button>}
+        <h2>File upload demo:</h2>
       </header>
 
       <section>
-        <h3>Add a person to list</h3>
+        <h3>Upload file</h3>
 
-        <AddPersonForm onSubmit={onAddPerson} />
+        <UploadFileForm onSubmit={handleUploadFile} />
+
+        <div>
+          {error && "ERROR"}
+          {data?.fileMetadata?.metadata && <FileCard file={data.fileMetadata.metadata} />}
+        </div>
       </section>
-
-      <>
-        <section>
-          <h3>Hire perhaps?</h3>
-
-          <PersonList persons={hireablePersons} showStats onRemovePerson={onRemovePerson} />
-        </section>
-
-        <section>
-          <h3>Not going to hire</h3>
-
-          <PersonList persons={notHireablePersons} onRemovePerson={onRemovePerson} />
-        </section>
-      </>
     </div>
   )
 }
-
-interface IsHireablePerson {
-  age: number
-}
-
-function isHireable(person: IsHireablePerson): boolean {
-  return person.age > 16
-}
-
-

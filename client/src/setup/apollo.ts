@@ -4,7 +4,7 @@ import {
 import { ApolloClient } from '@apollo/client'
 import { ApolloLink } from '@apollo/client'
 import { onError } from "@apollo/client/link/error";
-import { HttpLink } from '@apollo/client'
+import { createUploadLink } from 'apollo-upload-client'
 import generatedIntrospection from '../generated/introspection-result';
 import { typePolicies } from './fieldPolicies'
 
@@ -42,11 +42,13 @@ export function createApolloClient(config: Config): ApolloClient<{}> {
     )
   }
 
-  const httpLink = new HttpLink({ uri: `${config.GRAPHQL_API_URL}/graphql` })
+  const uploadLink = createUploadLink({
+    uri: `${config.GRAPHQL_API_URL}/graphql`
+  })
 
   return new ApolloClient({
     cache,
-    link: ApolloLink.from([ errorLink, httpLink]), 
+    link: ApolloLink.from([ errorLink, uploadLink]), 
     name: 'Graphql Training',
     version: '1.0',
   })

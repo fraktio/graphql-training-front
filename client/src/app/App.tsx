@@ -64,11 +64,7 @@ export function App() {
         <Router>
           <Switch>
             <Route exact path="/">
-              <IndexPage
-                persons={persons}
-                onAddPerson={handleAddPerson}
-                onRemovePerson={handleRemovePerson}
-              />
+              <IndexPage />
             </Route>
 
             <Route path="/directcache">
