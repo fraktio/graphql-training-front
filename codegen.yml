@@ -1,0 +1,13 @@
+overwrite: true
+schema: "https://graphql-training-demo-rgixynsivq-lz.a.run.app/graphql"
+documents: "src/schema/*.graphql"
+config:
+  nonOptionalTypename: true
+
+generates:
+  src/generated.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo":
+         withHooks: true

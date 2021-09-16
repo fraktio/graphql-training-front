@@ -1,0 +1,16 @@
+fragment Adult on Adult {
+  employers {
+    UUID
+    name
+  }
+}
+
+query AllPersons {
+  allPersons {
+    firstName
+    lastName
+    UUID
+    birthday
+    ...Adult
+  }
+}
