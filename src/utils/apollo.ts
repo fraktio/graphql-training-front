@@ -5,7 +5,6 @@ import {
   HttpLink,
   NormalizedCacheObject,
 } from "@apollo/client";
-import { createUploadLink } from "apollo-upload-client";
 
 import { config } from "~/config";
 
@@ -14,7 +13,7 @@ export const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
 
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link: from([httpLink, createUploadLink()]),
+    link: from([httpLink]),
   });
 
   return client;
