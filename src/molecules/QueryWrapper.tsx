@@ -4,28 +4,26 @@ import { useCallback, useState, ReactElement } from "react";
 
 import { Button } from "~/atoms/Button";
 import { Loading } from "~/atoms/Loading";
+import { NotFound } from "~/atoms/NotFound";
 import { Paragraph } from "~/atoms/typography/Paragraph";
 import { scale } from "~/design";
 
-const ErrorContainer = styled.div(({ theme }) => ({
+const ErrorContainer = styled.div({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   textAlign: "center",
   margin: `${scale(2)} 0`,
   padding: `${scale(2)} ${scale(4)}`,
-  backgroundColor: theme.colors.card,
-}));
+});
 
 type Props<T> = {
   query: QueryResult<T>;
-  showDataSownWhileLoading?: boolean;
   children: (data: T) => ReactElement;
 };
 
 export const QueryWrapper = <T extends unknown>({
   query,
-  showDataSownWhileLoading,
   children,
 }: Props<T>): ReactElement => {
   const [refetching, setRefetching] = useState<boolean>(false);
@@ -58,12 +56,12 @@ export const QueryWrapper = <T extends unknown>({
     );
   }
 
-  const isLoading = showDataSownWhileLoading
-    ? (query.loading && query.data === undefined) || query.data === undefined
-    : query.loading || query.data === undefined;
-
-  if (isLoading) {
+  if (query.loading) {
     return <Loading />;
+  }
+
+  if (query.data === undefined) {
+    return <NotFound />;
   }
 
   return children(query.data as T);

@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const ThemeProvider = ({ children }: Props): ReactElement => {
-  const isDark = true;
+  const isDark = false;
   const theme = {
     colors: isDark ? colorsDark : colorsLight,
   };

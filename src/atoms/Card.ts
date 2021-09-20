@@ -8,7 +8,7 @@ type CardProps = {
 
 export const Card = styled.div<CardProps>(
   ({ theme }) => ({
-    padding: scale(6),
+    padding: scale(4),
     borderRadius: scale(2),
     backgroundColor: theme.colors.card,
     boxShadow:
