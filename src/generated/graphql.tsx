@@ -39,78 +39,78 @@ export enum AccessRight {
 }
 
 export type AddCompanyInput = {
-  company: CompanyInput;
+  readonly company: CompanyInput;
 };
 
 export type AddCompanyOutput = AddCompanySuccess;
 
 export type AddCompanySuccess = {
-  __typename: 'AddCompanySuccess';
-  company: Company;
+  readonly __typename: 'AddCompanySuccess';
+  readonly company: Company;
 };
 
 export type AddEmployeeInput = {
-  companyUUID: Scalars['UUID'];
-  personUUID: Scalars['UUID'];
+  readonly companyUUID: Scalars['UUID'];
+  readonly personUUID: Scalars['UUID'];
 };
 
 export type AddEmployeeOutput = AddEmployeeSuccess;
 
 export type AddEmployeeSuccess = {
-  __typename: 'AddEmployeeSuccess';
-  company: Company;
+  readonly __typename: 'AddEmployeeSuccess';
+  readonly company: Company;
 };
 
 export type AddPersonInput = {
-  person: AddPersonPersonInput;
+  readonly person: AddPersonPersonInput;
 };
 
 export type AddPersonOutput = AddPersonSuccess | UniqueConstraintViolationFailure;
 
 export type AddPersonPersonInput = {
-  birthday: Scalars['Date'];
-  email: Scalars['Email'];
-  firstName: Scalars['String'];
-  gender: Gender;
+  readonly birthday: Scalars['Date'];
+  readonly email: Scalars['Email'];
+  readonly firstName: Scalars['String'];
+  readonly gender: Gender;
   /** Last name has to be minimum of 1 chracters and maximum of 50 */
-  lastName?: Maybe<Scalars['StringWithMaxLength50AndMinLength1']>;
-  nationality: Scalars['CountryCode'];
-  personalIdentityCode: Scalars['PersonalIdentityCode'];
-  phone?: Maybe<Scalars['Phone']>;
+  readonly lastName: Maybe<Scalars['StringWithMaxLength50AndMinLength1']>;
+  readonly nationality: Scalars['CountryCode'];
+  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
+  readonly phone: Maybe<Scalars['Phone']>;
 };
 
 export type AddPersonSuccess = {
-  __typename: 'AddPersonSuccess';
-  person: Person;
+  readonly __typename: 'AddPersonSuccess';
+  readonly person: Person;
 };
 
 /** Adult is over 16 years old Person */
 export type Adult = Person & {
-  __typename: 'Adult';
-  UUID: Scalars['UUID'];
-  birthday: Scalars['Date'];
-  email: Scalars['Email'];
-  employers: Array<Company>;
-  firstName: Scalars['String'];
-  gender: Gender;
-  lastName: Scalars['String'];
-  nationality: Scalars['CountryCode'];
+  readonly __typename: 'Adult';
+  readonly UUID: Scalars['UUID'];
+  readonly birthday: Scalars['Date'];
+  readonly email: Scalars['Email'];
+  readonly employers: ReadonlyArray<Company>;
+  readonly firstName: Scalars['String'];
+  readonly gender: Gender;
+  readonly lastName: Scalars['String'];
+  readonly nationality: Scalars['CountryCode'];
   /** Requires authentication and ADMIN privileges */
-  personalIdentityCode: Scalars['PersonalIdentityCode'];
-  phone?: Maybe<Scalars['Phone']>;
-  timestamp: Timestamp;
+  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
+  readonly phone: Maybe<Scalars['Phone']>;
+  readonly timestamp: Timestamp;
 };
 
 export type AuthenticatedUserFailure = {
-  __typename: 'AuthenticatedUserFailure';
-  success: Scalars['Boolean'];
+  readonly __typename: 'AuthenticatedUserFailure';
+  readonly success: Scalars['Boolean'];
 };
 
 export type AuthenticatedUserResponse = AuthenticatedUserFailure | AuthenticatedUserSuccess;
 
 export type AuthenticatedUserSuccess = {
-  __typename: 'AuthenticatedUserSuccess';
-  user: User;
+  readonly __typename: 'AuthenticatedUserSuccess';
+  readonly user: User;
 };
 
 export enum CacheControlScope {
@@ -119,104 +119,104 @@ export enum CacheControlScope {
 }
 
 export type Company = {
-  __typename: 'Company';
-  UUID: Scalars['UUID'];
-  employees: Array<Adult>;
-  name: Scalars['String'];
-  timestamp: Timestamp;
+  readonly __typename: 'Company';
+  readonly UUID: Scalars['UUID'];
+  readonly employees: ReadonlyArray<Adult>;
+  readonly name: Scalars['String'];
+  readonly timestamp: Timestamp;
 };
 
 export type CompanyFailureNotFound = {
-  __typename: 'CompanyFailureNotFound';
-  success: Scalars['Boolean'];
+  readonly __typename: 'CompanyFailureNotFound';
+  readonly success: Scalars['Boolean'];
 };
 
 export type CompanyFilterInput = {
-  filterOperations?: Maybe<Array<CompanyFilterOperationInput>>;
-  nameFilter?: Maybe<StringFilter>;
+  readonly filterOperations: Maybe<ReadonlyArray<CompanyFilterOperationInput>>;
+  readonly nameFilter: Maybe<StringFilter>;
 };
 
 export type CompanyFilterOperationInput = {
-  filters?: Maybe<Array<CompanyFilterInput>>;
-  operator: FilterOperator;
+  readonly filters: Maybe<ReadonlyArray<CompanyFilterInput>>;
+  readonly operator: FilterOperator;
 };
 
 export type CompanyInput = {
-  name: Scalars['String'];
+  readonly name: Scalars['String'];
 };
 
 export type CompanyOutput = CompanyFailureNotFound | CompanySuccess;
 
 export type CompanyQuery = {
-  UUID: Scalars['UUID'];
+  readonly UUID: Scalars['UUID'];
 };
 
 export type CompanySuccess = {
-  __typename: 'CompanySuccess';
-  company: Company;
+  readonly __typename: 'CompanySuccess';
+  readonly company: Company;
 };
 
 export type DateFilter = {
-  equal?: Maybe<Scalars['Date']>;
-  greaterOrEqualThan?: Maybe<Scalars['Date']>;
-  greaterThan?: Maybe<Scalars['Date']>;
-  lessOrEqualThan?: Maybe<Scalars['Date']>;
-  lessThan?: Maybe<Scalars['Date']>;
-  notEqual?: Maybe<Scalars['Date']>;
+  readonly equal: Maybe<Scalars['Date']>;
+  readonly greaterOrEqualThan: Maybe<Scalars['Date']>;
+  readonly greaterThan: Maybe<Scalars['Date']>;
+  readonly lessOrEqualThan: Maybe<Scalars['Date']>;
+  readonly lessThan: Maybe<Scalars['Date']>;
+  readonly notEqual: Maybe<Scalars['Date']>;
 };
 
 export type EditCompanyFailureNotFound = {
-  __typename: 'EditCompanyFailureNotFound';
-  success?: Maybe<Scalars['Boolean']>;
+  readonly __typename: 'EditCompanyFailureNotFound';
+  readonly success: Maybe<Scalars['Boolean']>;
 };
 
 export type EditCompanyInput = {
-  UUID: Scalars['UUID'];
-  company: CompanyInput;
+  readonly UUID: Scalars['UUID'];
+  readonly company: CompanyInput;
 };
 
 export type EditCompanyOutput = EditCompanyFailureNotFound | EditCompanySuccess;
 
 export type EditCompanySuccess = {
-  __typename: 'EditCompanySuccess';
-  company: Company;
+  readonly __typename: 'EditCompanySuccess';
+  readonly company: Company;
 };
 
 export type EditPersonInput = {
-  UUID: Scalars['UUID'];
-  person: AddPersonPersonInput;
+  readonly UUID: Scalars['UUID'];
+  readonly person: AddPersonPersonInput;
 };
 
 export type EditPersonOutput = EditPersonSuccess | NotFoundFailure | UniqueConstraintViolationFailure;
 
 export type EditPersonSuccess = {
-  __typename: 'EditPersonSuccess';
-  person: Person;
+  readonly __typename: 'EditPersonSuccess';
+  readonly person: Person;
 };
 
 export type FailureOutput = {
-  field: Scalars['String'];
-  message: Scalars['String'];
+  readonly field: Scalars['String'];
+  readonly message: Scalars['String'];
 };
 
 export type File = {
-  __typename: 'File';
-  encoding: Scalars['String'];
-  filename: Scalars['String'];
-  mimetype: Scalars['String'];
+  readonly __typename: 'File';
+  readonly encoding: Scalars['String'];
+  readonly filename: Scalars['String'];
+  readonly mimetype: Scalars['String'];
 };
 
 export type FileMetadataInvalidFile = FailureOutput & {
-  __typename: 'FileMetadataInvalidFile';
-  field: Scalars['String'];
-  message: Scalars['String'];
+  readonly __typename: 'FileMetadataInvalidFile';
+  readonly field: Scalars['String'];
+  readonly message: Scalars['String'];
 };
 
 export type FileMetadataResponse = FileMetadataInvalidFile | FileMetadataSuccess;
 
 export type FileMetadataSuccess = {
-  __typename: 'FileMetadataSuccess';
-  metadata: File;
+  readonly __typename: 'FileMetadataSuccess';
+  readonly metadata: File;
 };
 
 export enum FilterOperator {
@@ -231,40 +231,40 @@ export enum Gender {
 }
 
 export type InvalidCursorFailure = FailureOutput & {
-  __typename: 'InvalidCursorFailure';
-  field: Scalars['String'];
-  message: Scalars['String'];
+  readonly __typename: 'InvalidCursorFailure';
+  readonly field: Scalars['String'];
+  readonly message: Scalars['String'];
 };
 
 export type LoginUserFailure = {
-  __typename: 'LoginUserFailure';
-  success: Scalars['Boolean'];
+  readonly __typename: 'LoginUserFailure';
+  readonly success: Scalars['Boolean'];
 };
 
 export type LoginUserInput = {
-  password: Scalars['String'];
-  username: Scalars['String'];
+  readonly password: Scalars['String'];
+  readonly username: Scalars['String'];
 };
 
 export type LoginUserResponse = LoginUserFailure | LoginUserSuccess;
 
 export type LoginUserSuccess = {
-  __typename: 'LoginUserSuccess';
-  user: User;
+  readonly __typename: 'LoginUserSuccess';
+  readonly user: User;
 };
 
 export type Mutation = {
-  __typename: 'Mutation';
-  addCompany: AddCompanyOutput;
-  addEmployee: AddEmployeeOutput;
-  addPerson: AddPersonOutput;
-  editCompany: EditCompanyOutput;
-  editPerson: EditPersonOutput;
-  fileMetadata: FileMetadataResponse;
-  login: LoginUserResponse;
-  logout: Scalars['Boolean'];
-  register: RegisterResponse;
-  removeEmployee: RemoveEmployeeOutput;
+  readonly __typename: 'Mutation';
+  readonly addCompany: AddCompanyOutput;
+  readonly addEmployee: AddEmployeeOutput;
+  readonly addPerson: AddPersonOutput;
+  readonly editCompany: EditCompanyOutput;
+  readonly editPerson: EditPersonOutput;
+  readonly fileMetadata: FileMetadataResponse;
+  readonly login: LoginUserResponse;
+  readonly logout: Scalars['Boolean'];
+  readonly register: RegisterResponse;
+  readonly removeEmployee: RemoveEmployeeOutput;
 };
 
 
@@ -313,70 +313,70 @@ export type MutationRemoveEmployeeArgs = {
 };
 
 export type NotFoundFailure = FailureOutput & {
-  __typename: 'NotFoundFailure';
-  field: Scalars['String'];
-  message: Scalars['String'];
+  readonly __typename: 'NotFoundFailure';
+  readonly field: Scalars['String'];
+  readonly message: Scalars['String'];
 };
 
 export type NumberFact = {
-  __typename: 'NumberFact';
-  fact: Scalars['String'];
-  number: Scalars['Int'];
+  readonly __typename: 'NumberFact';
+  readonly fact: Scalars['String'];
+  readonly number: Scalars['Int'];
 };
 
 export type NumberFactFailure = {
-  __typename: 'NumberFactFailure';
-  success?: Maybe<Scalars['Boolean']>;
+  readonly __typename: 'NumberFactFailure';
+  readonly success: Maybe<Scalars['Boolean']>;
 };
 
 export type NumberFactInput = {
-  number: Scalars['Int'];
+  readonly number: Scalars['Int'];
 };
 
 export type NumberFactOutput = NumberFactFailure | NumberFactSuccess;
 
 export type NumberFactSuccess = {
-  __typename: 'NumberFactSuccess';
-  numberFact: NumberFact;
+  readonly __typename: 'NumberFactSuccess';
+  readonly numberFact: NumberFact;
 };
 
 export type PageInfo = {
-  __typename: 'PageInfo';
-  hasNextPage: Scalars['Boolean'];
+  readonly __typename: 'PageInfo';
+  readonly hasNextPage: Scalars['Boolean'];
 };
 
 export type PaginationInput = {
-  cursor?: Maybe<Scalars['Cursor']>;
-  limit?: Maybe<Scalars['Int']>;
+  readonly cursor: Maybe<Scalars['Cursor']>;
+  readonly limit: Maybe<Scalars['Int']>;
 };
 
 export type Person = {
-  UUID: Scalars['UUID'];
-  birthday: Scalars['Date'];
-  email: Scalars['Email'];
-  firstName: Scalars['String'];
-  gender: Gender;
-  lastName: Scalars['String'];
-  nationality: Scalars['CountryCode'];
+  readonly UUID: Scalars['UUID'];
+  readonly birthday: Scalars['Date'];
+  readonly email: Scalars['Email'];
+  readonly firstName: Scalars['String'];
+  readonly gender: Gender;
+  readonly lastName: Scalars['String'];
+  readonly nationality: Scalars['CountryCode'];
   /** Requires authentication and ADMIN privileges */
-  personalIdentityCode: Scalars['PersonalIdentityCode'];
-  phone?: Maybe<Scalars['Phone']>;
-  timestamp: Timestamp;
+  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
+  readonly phone: Maybe<Scalars['Phone']>;
+  readonly timestamp: Timestamp;
 };
 
 export type PersonFilterInput = {
-  birthdayFilter?: Maybe<DateFilter>;
-  filterOperations?: Maybe<Array<PersonFilterOperationInput>>;
-  nameFilter?: Maybe<StringFilter>;
+  readonly birthdayFilter: Maybe<DateFilter>;
+  readonly filterOperations: Maybe<ReadonlyArray<PersonFilterOperationInput>>;
+  readonly nameFilter: Maybe<StringFilter>;
 };
 
 export type PersonFilterOperationInput = {
-  filters?: Maybe<Array<PersonFilterInput>>;
-  operator: FilterOperator;
+  readonly filters: Maybe<ReadonlyArray<PersonFilterInput>>;
+  readonly operator: FilterOperator;
 };
 
 export type PersonInput = {
-  UUID: Scalars['UUID'];
+  readonly UUID: Scalars['UUID'];
 };
 
 export enum PersonSortField {
@@ -387,35 +387,35 @@ export enum PersonSortField {
 }
 
 export type PersonSortInput = {
-  field: PersonSortField;
-  order: SortOrder;
+  readonly field: PersonSortField;
+  readonly order: SortOrder;
 };
 
 export type PersonsPaginationEdge = {
-  __typename: 'PersonsPaginationEdge';
-  cursor: Scalars['Cursor'];
-  node: Person;
+  readonly __typename: 'PersonsPaginationEdge';
+  readonly cursor: Scalars['Cursor'];
+  readonly node: Person;
 };
 
 export type PersonsPaginationOutput = InvalidCursorFailure | PersonsPaginationResponse;
 
 export type PersonsPaginationResponse = {
-  __typename: 'PersonsPaginationResponse';
-  edges: Array<PersonsPaginationEdge>;
-  pageInfo: PageInfo;
+  readonly __typename: 'PersonsPaginationResponse';
+  readonly edges: ReadonlyArray<PersonsPaginationEdge>;
+  readonly pageInfo: PageInfo;
 };
 
 export type Query = {
-  __typename: 'Query';
-  allPersons: Array<Person>;
-  authenticatedUser: AuthenticatedUserResponse;
+  readonly __typename: 'Query';
+  readonly allPersons: ReadonlyArray<Person>;
+  readonly authenticatedUser: AuthenticatedUserResponse;
   /** Cached person query is cached for 120 seconds */
-  cachedPerson: Person;
-  companies: Array<Company>;
-  company: CompanyOutput;
-  numberFact: NumberFactOutput;
-  person: Person;
-  persons: PersonsPaginationOutput;
+  readonly cachedPerson: Person;
+  readonly companies: ReadonlyArray<Company>;
+  readonly company: CompanyOutput;
+  readonly numberFact: NumberFactOutput;
+  readonly person: Person;
+  readonly persons: PersonsPaginationOutput;
 };
 
 
@@ -425,7 +425,7 @@ export type QueryCachedPersonArgs = {
 
 
 export type QueryCompaniesArgs = {
-  filters?: Maybe<CompanyFilterOperationInput>;
+  filters: Maybe<CompanyFilterOperationInput>;
 };
 
 
@@ -445,45 +445,45 @@ export type QueryPersonArgs = {
 
 
 export type QueryPersonsArgs = {
-  filters?: Maybe<PersonFilterOperationInput>;
+  filters: Maybe<PersonFilterOperationInput>;
   pagination: PaginationInput;
-  sort?: Maybe<Array<PersonSortInput>>;
+  sort: Maybe<ReadonlyArray<PersonSortInput>>;
 };
 
 export type RegisterFailure = {
-  __typename: 'RegisterFailure';
-  success: Scalars['Boolean'];
+  readonly __typename: 'RegisterFailure';
+  readonly success: Scalars['Boolean'];
 };
 
 export type RegisterFailureAlreadyExists = {
-  __typename: 'RegisterFailureAlreadyExists';
-  success: Scalars['Boolean'];
+  readonly __typename: 'RegisterFailureAlreadyExists';
+  readonly success: Scalars['Boolean'];
 };
 
 export type RegisterInput = {
-  email: Scalars['Email'];
-  password: Scalars['String'];
-  phoneNumber: Scalars['Phone'];
-  username: Scalars['String'];
+  readonly email: Scalars['Email'];
+  readonly password: Scalars['String'];
+  readonly phoneNumber: Scalars['Phone'];
+  readonly username: Scalars['String'];
 };
 
 export type RegisterResponse = RegisterFailure | RegisterFailureAlreadyExists | RegisterSuccess;
 
 export type RegisterSuccess = {
-  __typename: 'RegisterSuccess';
-  success: Scalars['Boolean'];
+  readonly __typename: 'RegisterSuccess';
+  readonly success: Scalars['Boolean'];
 };
 
 export type RemoveEmployeeInput = {
-  companyUUID: Scalars['UUID'];
-  personUUID: Scalars['UUID'];
+  readonly companyUUID: Scalars['UUID'];
+  readonly personUUID: Scalars['UUID'];
 };
 
 export type RemoveEmployeeOutput = RemoveEmployeeSuccess;
 
 export type RemoveEmployeeSuccess = {
-  __typename: 'RemoveEmployeeSuccess';
-  company: Company;
+  readonly __typename: 'RemoveEmployeeSuccess';
+  readonly company: Company;
 };
 
 export enum SortOrder {
@@ -492,66 +492,91 @@ export enum SortOrder {
 }
 
 export type StringFilter = {
-  in?: Maybe<Array<Scalars['String']>>;
-  like?: Maybe<Scalars['String']>;
+  readonly in: Maybe<ReadonlyArray<Scalars['String']>>;
+  readonly like: Maybe<Scalars['String']>;
 };
 
 export type Subscription = {
-  __typename: 'Subscription';
-  personAdded: Person;
+  readonly __typename: 'Subscription';
+  readonly personAdded: Person;
 };
 
 export type TimeFilter = {
-  equal?: Maybe<Scalars['DateTime']>;
-  greaterOrEqualThan?: Maybe<Scalars['DateTime']>;
-  greaterThan?: Maybe<Scalars['DateTime']>;
-  lessOrEqualThan?: Maybe<Scalars['DateTime']>;
-  lessThan?: Maybe<Scalars['DateTime']>;
-  notEqual?: Maybe<Scalars['DateTime']>;
+  readonly equal: Maybe<Scalars['DateTime']>;
+  readonly greaterOrEqualThan: Maybe<Scalars['DateTime']>;
+  readonly greaterThan: Maybe<Scalars['DateTime']>;
+  readonly lessOrEqualThan: Maybe<Scalars['DateTime']>;
+  readonly lessThan: Maybe<Scalars['DateTime']>;
+  readonly notEqual: Maybe<Scalars['DateTime']>;
 };
 
 export type Timestamp = {
-  __typename: 'Timestamp';
-  createdAt: Scalars['DateTime'];
-  modifiedAt?: Maybe<Scalars['DateTime']>;
+  readonly __typename: 'Timestamp';
+  readonly createdAt: Scalars['DateTime'];
+  readonly modifiedAt: Maybe<Scalars['DateTime']>;
 };
 
 /** Underage is under 16 years old Person */
 export type Underage = Person & {
-  __typename: 'Underage';
-  UUID: Scalars['UUID'];
-  birthday: Scalars['Date'];
-  email: Scalars['Email'];
-  firstName: Scalars['String'];
-  gender: Gender;
-  lastName: Scalars['String'];
-  nationality: Scalars['CountryCode'];
+  readonly __typename: 'Underage';
+  readonly UUID: Scalars['UUID'];
+  readonly birthday: Scalars['Date'];
+  readonly email: Scalars['Email'];
+  readonly firstName: Scalars['String'];
+  readonly gender: Gender;
+  readonly lastName: Scalars['String'];
+  readonly nationality: Scalars['CountryCode'];
   /** Requires authentication and ADMIN privileges */
-  personalIdentityCode: Scalars['PersonalIdentityCode'];
-  phone?: Maybe<Scalars['Phone']>;
-  timestamp: Timestamp;
+  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
+  readonly phone: Maybe<Scalars['Phone']>;
+  readonly timestamp: Timestamp;
 };
 
 /** Operation fails because some value is not unique */
 export type UniqueConstraintViolationFailure = FailureOutput & {
-  __typename: 'UniqueConstraintViolationFailure';
-  field: Scalars['String'];
-  message: Scalars['String'];
+  readonly __typename: 'UniqueConstraintViolationFailure';
+  readonly field: Scalars['String'];
+  readonly message: Scalars['String'];
 };
 
 export type User = {
-  __typename: 'User';
-  UUID: Scalars['UUID'];
-  username: Scalars['String'];
+  readonly __typename: 'User';
+  readonly UUID: Scalars['UUID'];
+  readonly username: Scalars['String'];
 };
 
-export type AdultFragment = { __typename: 'Adult', employers: Array<{ __typename: 'Company', UUID: any, name: string }> };
+export type AuthenticatedUserFragment = { readonly __typename: 'User', readonly UUID: any, readonly username: string };
+
+export type AuthenticatedUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AuthenticatedUserQuery = { readonly __typename: 'Query', readonly authenticatedUser: { readonly __typename: 'AuthenticatedUserFailure', readonly success: boolean } | { readonly __typename: 'AuthenticatedUserSuccess', readonly user: { readonly __typename: 'User', readonly UUID: any, readonly username: string } } };
+
+export type LoginMutationVariables = Exact<{
+  input: LoginUserInput;
+}>;
+
+
+export type LoginMutation = { readonly __typename: 'Mutation', readonly login: { readonly __typename: 'LoginUserFailure', readonly success: boolean } | { readonly __typename: 'LoginUserSuccess', readonly user: { readonly __typename: 'User', readonly UUID: any, readonly username: string } } };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { readonly __typename: 'Mutation', readonly logout: boolean };
+
+export type AdultFragment = { readonly __typename: 'Adult', readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly UUID: any, readonly name: string }> };
 
 export type AllPersonsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllPersonsQuery = { __typename: 'Query', allPersons: Array<{ __typename: 'Adult', firstName: string, lastName: string, UUID: any, birthday: any, employers: Array<{ __typename: 'Company', UUID: any, name: string }> } | { __typename: 'Underage', firstName: string, lastName: string, UUID: any, birthday: any }> };
+export type AllPersonsQuery = { readonly __typename: 'Query', readonly allPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly UUID: any, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly UUID: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly UUID: any, readonly birthday: any }> };
 
+export const AuthenticatedUserFragmentDoc = gql`
+    fragment AuthenticatedUser on User {
+  UUID
+  username
+}
+    `;
 export const AdultFragmentDoc = gql`
     fragment Adult on Adult {
   employers {
@@ -560,6 +585,117 @@ export const AdultFragmentDoc = gql`
   }
 }
     `;
+export const AuthenticatedUserDocument = gql`
+    query AuthenticatedUser {
+  authenticatedUser {
+    ... on AuthenticatedUserSuccess {
+      user {
+        ...AuthenticatedUser
+      }
+    }
+    ... on AuthenticatedUserFailure {
+      success
+    }
+  }
+}
+    ${AuthenticatedUserFragmentDoc}`;
+
+/**
+ * __useAuthenticatedUserQuery__
+ *
+ * To run a query within a React component, call `useAuthenticatedUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAuthenticatedUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAuthenticatedUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAuthenticatedUserQuery(baseOptions?: Apollo.QueryHookOptions<AuthenticatedUserQuery, AuthenticatedUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AuthenticatedUserQuery, AuthenticatedUserQueryVariables>(AuthenticatedUserDocument, options);
+      }
+export function useAuthenticatedUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AuthenticatedUserQuery, AuthenticatedUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AuthenticatedUserQuery, AuthenticatedUserQueryVariables>(AuthenticatedUserDocument, options);
+        }
+export type AuthenticatedUserQueryHookResult = ReturnType<typeof useAuthenticatedUserQuery>;
+export type AuthenticatedUserLazyQueryHookResult = ReturnType<typeof useAuthenticatedUserLazyQuery>;
+export type AuthenticatedUserQueryResult = Apollo.QueryResult<AuthenticatedUserQuery, AuthenticatedUserQueryVariables>;
+export const LoginDocument = gql`
+    mutation Login($input: LoginUserInput!) {
+  login(input: $input) {
+    ... on LoginUserSuccess {
+      user {
+        ...AuthenticatedUser
+      }
+    }
+    ... on LoginUserFailure {
+      success
+    }
+  }
+}
+    ${AuthenticatedUserFragmentDoc}`;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const AllPersonsDocument = gql`
     query AllPersons {
   allPersons {

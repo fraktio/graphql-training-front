@@ -34,17 +34,20 @@ export type Option = {
 };
 
 export const SelectInput = forwardRef<HTMLSelectElement, Props>(
-  function SelectInput({
-    options,
-    onOption,
-    label,
-    id,
-    required,
-    isError,
-    helperText,
-    onChange,
-    ...rest
-  }: Props) {
+  function SelectInput(
+    {
+      options,
+      onOption,
+      label,
+      id,
+      required,
+      isError,
+      helperText,
+      onChange,
+      ...rest
+    }: Props,
+    ref,
+  ) {
     const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
       if (onChange) {
         onChange(e);
@@ -80,7 +83,7 @@ export const SelectInput = forwardRef<HTMLSelectElement, Props>(
             )}
           </Label>
         )}
-        <Select onChange={handleChange} error={isError} {...rest}>
+        <Select ref={ref} onChange={handleChange} error={isError} {...rest}>
           {options.map((option) => (
             <Option
               key={option.value}

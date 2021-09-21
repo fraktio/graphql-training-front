@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 
 import { Button } from "~/atoms/Button";
 import { ButtonsGrid } from "~/atoms/ButtonsGrid";
@@ -16,8 +16,9 @@ import { H2 } from "~/atoms/typography/H2";
 import { H3 } from "~/atoms/typography/H3";
 import { Label } from "~/atoms/typography/Label";
 import { Paragraph } from "~/atoms/typography/Paragraph";
-import { useAllPersonsQuery } from "~/generated";
+import { useAllPersonsQuery } from "~/generated/graphql";
 import { QueryWrapper } from "~/molecules/QueryWrapper";
+import { ToggleAuthenticationButton } from "~/molecules/ToggleAuthenticationButton";
 
 export const IndexPage = (): ReactElement => {
   const query = useAllPersonsQuery();
@@ -29,6 +30,7 @@ export const IndexPage = (): ReactElement => {
 
   return (
     <PageContent isNarrow>
+      <ToggleAuthenticationButton />
       <Section>
         <H1>GRAPHQL TRAINING</H1>
         <H2>GRAPHQL TRAINING</H2>

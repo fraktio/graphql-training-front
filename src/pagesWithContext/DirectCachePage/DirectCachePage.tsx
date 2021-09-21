@@ -12,7 +12,7 @@ import { Section } from "~/atoms/Section";
 import { User, UserCard } from "~/atoms/UserCard";
 import { UsersGrid } from "~/atoms/UsersGrid";
 import { H3 } from "~/atoms/typography/H3";
-import { AllPersonsQuery } from "~/generated";
+import { AllPersonsQuery } from "~/generated/graphql";
 import { QueryWrapper } from "~/molecules/QueryWrapper";
 
 /**

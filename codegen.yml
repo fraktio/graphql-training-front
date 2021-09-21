@@ -1,6 +1,7 @@
 overwrite: true
 schema: "https://graphql-training-demo-rgixynsivq-lz.a.run.app/graphql"
 documents: "src/schema/*.graphql"
+
 config:
   nonOptionalTypename: true
 

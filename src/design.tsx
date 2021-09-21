@@ -23,6 +23,9 @@ export const colorsLight: Colors = {
   primary: "#1e88e5",
   primaryDarken: "#1a76c7",
   primaryColor: "#ffffff",
+  success: "#4caf50",
+  successDarken: "#43a047",
+  successColor: "#ffffff",
   background: "#f6f6f6",
   card: "#ffffff",
   error: "#e53935",
@@ -34,6 +37,9 @@ export const colorsDark: Colors = {
   primary: "#1e88e5",
   primaryDarken: "#1a76c7",
   primaryColor: "#ffffff",
+  success: "#00e676",
+  successDarken: "#43a047",
+  successColor: "#ffffff",
   background: "#121212",
   card: "#333333",
   error: "#e53935",
@@ -78,7 +84,7 @@ export const fontSizes = {
   h3: scale(6.25),
   h4: scale(5),
   large: scale(4.25),
-  default: scale(3.75),
+  default: scale(4),
   small: scale(3.5),
   tiny: scale(3),
 };
@@ -87,6 +93,9 @@ type Colors = {
   primary: string;
   primaryDarken: string;
   primaryColor: string;
+  success: string;
+  successDarken: string;
+  successColor: string;
   background: string;
   card: string;
   error: string;

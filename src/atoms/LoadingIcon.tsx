@@ -14,30 +14,53 @@ const dotFlashingColored = keyframes({
   },
 });
 
-const FlashingDot = styled.div(({ theme }) => ({
-  opacity: 0,
-  marginRight: 2,
-  marginLeft: 2,
-  width: 14,
-  height: 14,
-  borderRadius: "100%",
-  backgroundColor: theme.colors.primary,
-  color: theme.colors.primary,
-  animation: `${dotFlashingColored} 1.5s infinite linear`,
-}));
+type DotProps = {
+  usePrimaryColor?: boolean;
+};
+
+const FlashingDot = styled.div<DotProps>(
+  ({ theme }) => ({
+    opacity: 0,
+    marginRight: 2,
+    marginLeft: 2,
+    width: 14,
+    height: 14,
+    borderRadius: "100%",
+    backgroundColor: theme.colors.primary,
+    color: theme.colors.primary,
+    animation: `${dotFlashingColored} 1.5s infinite linear`,
+  }),
+  ({ theme, usePrimaryColor }) => ({
+    backgroundColor: usePrimaryColor
+      ? theme.colors.primaryColor
+      : theme.colors.primary,
+  }),
+);
 
 const Flashing = styled.div({
   display: "flex",
 });
 
-type Props = {
+type Props = DotProps & {
   className?: string;
 };
 
-export const LoadingIcon = ({ className }: Props): ReactElement => (
+export const LoadingIcon = ({
+  className,
+  usePrimaryColor,
+}: Props): ReactElement => (
   <Flashing className={className}>
-    <FlashingDot css={{ animationDelay: "0s" }} />
-    <FlashingDot css={{ animationDelay: "0.5s" }} />
-    <FlashingDot css={{ animationDelay: "1s" }} />
+    <FlashingDot
+      usePrimaryColor={usePrimaryColor}
+      css={{ animationDelay: "0s" }}
+    />
+    <FlashingDot
+      usePrimaryColor={usePrimaryColor}
+      css={{ animationDelay: "0.5s" }}
+    />
+    <FlashingDot
+      usePrimaryColor={usePrimaryColor}
+      css={{ animationDelay: "1s" }}
+    />
   </Flashing>
 );

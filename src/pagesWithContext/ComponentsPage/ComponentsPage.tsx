@@ -16,7 +16,7 @@ import { H2 } from "~/atoms/typography/H2";
 import { H3 } from "~/atoms/typography/H3";
 import { Label } from "~/atoms/typography/Label";
 import { Paragraph } from "~/atoms/typography/Paragraph";
-import { useAllPersonsQuery } from "~/generated";
+import { useAllPersonsQuery } from "~/generated/graphql";
 import { QueryWrapper } from "~/molecules/QueryWrapper";
 
 const personDataMapper = (data: PersonFormValues) => ({

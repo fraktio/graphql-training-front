@@ -23,5 +23,6 @@
     }
   },
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "**/*.json"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.json"],
+  "ignorePatterns": ["src/generated/**/*.*"]
 }
