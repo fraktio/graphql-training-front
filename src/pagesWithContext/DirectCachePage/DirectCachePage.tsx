@@ -1,11 +1,5 @@
 /* eslint-disable no-console */
-import {
-  gql,
-  useApolloClient,
-  useQuery,
-  ApolloClient,
-  useMutation,
-} from "@apollo/client";
+import { gql, useApolloClient, useQuery, ApolloClient } from "@apollo/client";
 import React, { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 

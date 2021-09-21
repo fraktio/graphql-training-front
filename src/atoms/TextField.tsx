@@ -36,7 +36,7 @@ export const StyledTextInput = styled.input<InputProps>(
 
 interface Props {
   id: string;
-  type?: "text" | "tel" | "email" | "password" | "number";
+  type?: "text" | "tel" | "email" | "password" | "number" | "date";
   isError?: boolean;
   label?: ReactNode;
   helperText?: ReactNode;
@@ -44,6 +44,7 @@ interface Props {
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
+  readonly?: string;
 }
 
 export const TextField = forwardRef<HTMLInputElement, Props>(function TextField(

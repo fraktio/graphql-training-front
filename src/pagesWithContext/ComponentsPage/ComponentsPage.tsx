@@ -19,12 +19,22 @@ import { Paragraph } from "~/atoms/typography/Paragraph";
 import { useAllPersonsQuery } from "~/generated";
 import { QueryWrapper } from "~/molecules/QueryWrapper";
 
+const personDataMapper = (data: PersonFormValues) => ({
+  firstName: data.firstName,
+  lastName: data.lastName,
+  phoneNumber: data.phoneNumber,
+  email: data.email,
+  birthday: data.birthday,
+  nationality: data.nationality,
+  gender: data.gender,
+});
+
 export const ComponentsPage = (): ReactElement => {
   const query = useAllPersonsQuery();
 
   const handlePerson = (data: PersonFormValues) => {
     // eslint-disable-next-line no-console
-    console.log(data);
+    console.log(personDataMapper(data));
   };
 
   return (

@@ -1,4 +1,3 @@
-import React, { ChangeEvent, ReactElement } from "react";
 import { useFormContext } from "react-hook-form";
 import * as Yup from "yup";
 
@@ -23,23 +22,17 @@ export const fileValidation = Yup.mixed()
   // .required("File is required")
   .nullable();
 
-export const FileField = (props: FileInputProps): ReactElement => {
-  const { formState, register, setValue } = useFormContext();
+export const FileField = (props: FileInputProps): JSX.Element => {
+  const { formState, register } = useFormContext();
 
   const error = formState.errors?.file?.message;
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue("file", e.target.files);
-  };
-
   return (
     <FileInput
-      id="file"
       label="File"
       helperText={error ?? null}
       isError={!!error}
       {...register("file")}
-      onChange={handleOnChange}
       {...props}
     />
   );

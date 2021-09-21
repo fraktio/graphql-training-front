@@ -35,7 +35,7 @@ export const FileUploadForm = ({
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onFile)}>
-        <FileField />
+        <FileField id="file" />
         <Button type="submit">Submit</Button>
       </form>
     </FormProvider>

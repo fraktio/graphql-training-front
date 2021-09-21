@@ -1,2 +1,3 @@
-src/generated.tsx
+src/generated/graphql.tsx
+src/generated/introspection-result.tsx
 .next

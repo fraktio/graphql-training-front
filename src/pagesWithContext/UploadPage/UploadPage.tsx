@@ -57,8 +57,10 @@ export const UploadPage = () => {
   return (
     <PageContent isNarrow>
       <Section>
-        <H3>File Upload</H3>
-        <FileUploadForm onFile={handleFile} />
+        <Card>
+          <H3>File Upload</H3>
+          <FileUploadForm onFile={handleFile} />
+        </Card>
       </Section>
 
       <Section>
