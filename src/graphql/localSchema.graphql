@@ -1,0 +1,12 @@
+
+extend type Person {
+  age: Int
+}
+
+extend type Adult {
+  age: Int
+}
+
+extend type Underage {
+  age: Int
+}

@@ -7,7 +7,6 @@ import { Loading } from "~/atoms/Loading";
 import { NotFound } from "~/atoms/NotFound";
 import { PageContent } from "~/atoms/PageContent";
 import { Section } from "~/atoms/Section";
-import { UserCard } from "~/atoms/UserCard";
 import { UsersGrid } from "~/atoms/UsersGrid";
 import { PersonForm, PersonFormValues } from "~/atoms/form/PersonForm";
 import { ErrorText } from "~/atoms/typography/ErrorText";
@@ -17,11 +16,14 @@ import { H3 } from "~/atoms/typography/H3";
 import { Label } from "~/atoms/typography/Label";
 import { Paragraph } from "~/atoms/typography/Paragraph";
 import { useAllPersonsQuery } from "~/generated/graphql";
+import { PersonCard } from "~/molecules/PersonCard";
 import { QueryWrapper } from "~/molecules/QueryWrapper";
 import { ToggleAuthenticationButton } from "~/molecules/ToggleAuthenticationButton";
 
 export const IndexPage = (): ReactElement => {
   const query = useAllPersonsQuery();
+
+  console.log("received", query.data);
 
   const handlePerson = (data: PersonFormValues) => {
     // eslint-disable-next-line no-console
@@ -63,7 +65,7 @@ export const IndexPage = (): ReactElement => {
         {({ allPersons }) => (
           <UsersGrid>
             {allPersons.map((person) => (
-              <UserCard key={person.UUID} user={person} />
+              <PersonCard key={person.UUID} person={person} />
             ))}
           </UsersGrid>
         )}

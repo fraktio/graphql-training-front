@@ -9,10 +9,10 @@ import { PageContent } from "~/atoms/PageContent";
 import { PetCard } from "~/atoms/PetCard";
 import { PetsGrid } from "~/atoms/PetsGrid";
 import { Section } from "~/atoms/Section";
-import { User, UserCard } from "~/atoms/UserCard";
 import { UsersGrid } from "~/atoms/UsersGrid";
 import { H3 } from "~/atoms/typography/H3";
 import { AllPersonsQuery } from "~/generated/graphql";
+import { PersonCard, Person } from "~/molecules/PersonCard";
 import { QueryWrapper } from "~/molecules/QueryWrapper";
 
 /**
@@ -81,9 +81,9 @@ export const DirectCachePage = () => {
   });
   console.log("DIRECTLY READ FROM CACHE", personsFromCache);
 
-  const handleDeletePerson = (user: User) => {
+  const handleDeletePerson = (person: Person) => {
     // Tehävä X, poista käyttääjä cachesta
-    removePersonFromCache(client, user.UUID);
+    removePersonFromCache(client, person.UUID);
   };
 
   const handleAddPet = () => {
@@ -136,9 +136,9 @@ export const DirectCachePage = () => {
         {({ allPersons }) => (
           <UsersGrid>
             {allPersons.map((person) => (
-              <UserCard
+              <PersonCard
                 key={person.UUID}
-                user={person}
+                person={person}
                 onDelete={handleDeletePerson}
               />
             ))}

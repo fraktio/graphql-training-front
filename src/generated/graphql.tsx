@@ -88,6 +88,7 @@ export type AddPersonSuccess = {
 export type Adult = Person & {
   readonly __typename: 'Adult';
   readonly UUID: Scalars['UUID'];
+  readonly age: Maybe<Scalars['Int']>;
   readonly birthday: Scalars['Date'];
   readonly email: Scalars['Email'];
   readonly employers: ReadonlyArray<Company>;
@@ -352,6 +353,7 @@ export type PaginationInput = {
 
 export type Person = {
   readonly UUID: Scalars['UUID'];
+  readonly age: Maybe<Scalars['Int']>;
   readonly birthday: Scalars['Date'];
   readonly email: Scalars['Email'];
   readonly firstName: Scalars['String'];
@@ -520,6 +522,7 @@ export type Timestamp = {
 export type Underage = Person & {
   readonly __typename: 'Underage';
   readonly UUID: Scalars['UUID'];
+  readonly age: Maybe<Scalars['Int']>;
   readonly birthday: Scalars['Date'];
   readonly email: Scalars['Email'];
   readonly firstName: Scalars['String'];
@@ -569,7 +572,7 @@ export type AdultFragment = { readonly __typename: 'Adult', readonly employers: 
 export type AllPersonsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllPersonsQuery = { readonly __typename: 'Query', readonly allPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly UUID: any, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly UUID: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly UUID: any, readonly birthday: any }> };
+export type AllPersonsQuery = { readonly __typename: 'Query', readonly allPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly UUID: any, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly UUID: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly UUID: any, readonly birthday: any, readonly age: Maybe<number> }> };
 
 export const AuthenticatedUserFragmentDoc = gql`
     fragment AuthenticatedUser on User {
@@ -703,6 +706,7 @@ export const AllPersonsDocument = gql`
     lastName
     UUID
     birthday
+    age @client
     ...Adult
   }
 }

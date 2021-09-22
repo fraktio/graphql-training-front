@@ -1,7 +1,7 @@
 import { ApolloProvider as ApolloClientProvider } from "@apollo/client";
 import { ReactNode, useRef, ReactElement } from "react";
 
-import { createApolloClient } from "~/utils/apollo";
+import { createApolloClient } from "~/graphql/apollo";
 
 type Props = {
   children: ReactNode;

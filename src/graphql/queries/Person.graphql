@@ -11,6 +11,7 @@ query AllPersons {
     lastName
     UUID
     birthday
+    age @client
     ...Adult
   }
 }

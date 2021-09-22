@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 import { Card } from "~/atoms/Card";
 import { PageContent } from "~/atoms/PageContent";
 import { TwoColumnSection } from "~/atoms/TwoColumnSection";
-import { User, UserCard } from "~/atoms/UserCard";
 import { UsersGrid } from "~/atoms/UsersGrid";
 import { PersonForm, PersonHandler } from "~/atoms/form/PersonForm";
 import { H1 } from "~/atoms/typography/H1";
 import { H3 } from "~/atoms/typography/H3";
+import { Person, PersonCard } from "~/molecules/PersonCard";
 
 const persons = [
   {
@@ -34,7 +34,7 @@ const persons = [
 ];
 
 export const PersonsPage = () => {
-  const handleDeletePerson = (data: User) => {
+  const handleDeletePerson = (data: Person) => {
     // eslint-disable-next-line no-console
     console.log("onDelete", data);
   };
@@ -65,9 +65,9 @@ export const PersonsPage = () => {
           <H3>Persons</H3>
           <UsersGrid>
             {persons.map((person) => (
-              <UserCard
+              <PersonCard
                 key={person.UUID}
-                user={person}
+                person={person}
                 onDelete={handleDeletePerson}
               />
             ))}
