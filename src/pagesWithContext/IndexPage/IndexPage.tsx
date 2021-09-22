@@ -23,8 +23,6 @@ import { ToggleAuthenticationButton } from "~/molecules/ToggleAuthenticationButt
 export const IndexPage = (): ReactElement => {
   const query = useAllPersonsQuery();
 
-  console.log("received", query.data);
-
   const handlePerson = (data: PersonFormValues) => {
     // eslint-disable-next-line no-console
     console.log(data);
