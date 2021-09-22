@@ -2,8 +2,9 @@ import { ReactNode, ReactElement } from "react";
 
 import { ApolloProvider } from "~/providers/ApolloProvider";
 import { ThemeProvider } from "~/providers/ThemeProvider";
+import { ToastProvider } from "~/providers/ToastProvider";
 
-const providers = [ApolloProvider, ThemeProvider].reverse();
+const providers = [ThemeProvider, ToastProvider, ApolloProvider].reverse();
 
 type Props = {
   children: ReactNode;

@@ -1,9 +1,13 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import faker from "faker";
+import { FinnishSSN } from "finnish-ssn";
+import { DateTime } from "luxon";
 import React, { ReactElement } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import * as Yup from "yup";
 
 import { Button } from "~/atoms/Button";
+import { ButtonsGrid } from "~/atoms/ButtonsGrid";
 import {
   BirthdayField,
   birthdayValidation,
@@ -23,19 +27,52 @@ import {
   nationalityValidation,
 } from "~/atoms/form/fields/NationalityField";
 import {
+  PersonalIdentityCodeField,
+  ssnValidation,
+} from "~/atoms/form/fields/PersonalIdentityCodeField";
+import {
   PhoneNumberField,
   phoneNumberValidation,
 } from "~/atoms/form/fields/PhoneNumberField";
+import { Gender } from "~/generated/graphql";
+import { randomIntFromInterval } from "~/utils/math";
+import { createValidSsn } from "~/utils/ssn";
 
-const defaultFormValues: PersonFormValues = {
+const createMockValues = (): PersonFormValues => {
+  const ssn = createValidSsn();
+
+  const parsedSSN = FinnishSSN.parse(ssn);
+
+  const gender = faker.random.arrayElement([
+    Gender.Male,
+    Gender.Female,
+    Gender.Other,
+  ]);
+
+  return {
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    phoneNumber: faker.phone.phoneNumber("040#######"),
+    email: faker.internet.email(),
+    birthday: DateTime.fromJSDate(parsedSSN.dateOfBirth).toSQLDate(),
+    nationality: "FI",
+    gender: gender,
+    personalIdentityCode: FinnishSSN.createWithAge(
+      randomIntFromInterval(16, 80),
+    ),
+  };
+};
+
+const createDefaultFormValues = (): PersonFormValues => ({
   firstName: "",
   lastName: "",
   phoneNumber: "",
   email: "",
   birthday: "",
   nationality: "FI",
-  gender: "",
-};
+  gender: "pick",
+  personalIdentityCode: FinnishSSN.createWithAge(randomIntFromInterval(16, 80)),
+});
 
 const schema = Yup.object().shape({
   firstName: firstNameValidation,
@@ -45,6 +82,7 @@ const schema = Yup.object().shape({
   birthday: birthdayValidation,
   nationality: nationalityValidation,
   gender: genderValidation,
+  personalIdentityCode: ssnValidation,
 });
 
 export type PersonFormValues = {
@@ -55,22 +93,43 @@ export type PersonFormValues = {
   birthday: string;
   nationality: string;
   gender: string;
+  personalIdentityCode: string;
 };
+
+export type PersonHandler = (
+  data: PersonFormValues,
+  resetForm: () => void,
+) => void;
 
 type Props = {
   defaultValues?: PersonFormValues;
-  onPerson: (data: PersonFormValues) => void;
+  onPerson: PersonHandler;
 };
 
 export const PersonForm = ({
-  defaultValues = defaultFormValues,
+  defaultValues,
   onPerson,
 }: Props): ReactElement => {
-  const methods = useForm({ defaultValues, resolver: yupResolver(schema) });
+  const methods = useForm({
+    defaultValues: defaultValues ?? createDefaultFormValues(),
+    resolver: yupResolver(schema),
+  });
+
+  const resetForm = () => {
+    methods.reset(createDefaultFormValues());
+  };
+
+  const handleSubmit = (data: PersonFormValues) => {
+    onPerson(data, resetForm);
+  };
+
+  const handleGenerate = () => {
+    methods.reset(createMockValues());
+  };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onPerson)}>
+      <form onSubmit={methods.handleSubmit(handleSubmit)}>
         <FirstNameField required />
         <LastNameField required />
         <EmailField required />
@@ -78,7 +137,13 @@ export const PersonForm = ({
         <BirthdayField required />
         <NationalityField required />
         <GenderField required />
-        <Button type="submit">Submit</Button>
+        <PersonalIdentityCodeField required />
+        <ButtonsGrid>
+          <Button type="submit">Submit</Button>
+          <Button type="button" onClick={handleGenerate}>
+            Generate
+          </Button>
+        </ButtonsGrid>
       </form>
     </FormProvider>
   );

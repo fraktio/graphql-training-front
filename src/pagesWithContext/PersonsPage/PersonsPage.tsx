@@ -1,11 +1,12 @@
 import React from "react";
+import { toast } from "react-toastify";
 
 import { Card } from "~/atoms/Card";
 import { PageContent } from "~/atoms/PageContent";
 import { TwoColumnSection } from "~/atoms/TwoColumnSection";
 import { User, UserCard } from "~/atoms/UserCard";
 import { UsersGrid } from "~/atoms/UsersGrid";
-import { PersonForm, PersonFormValues } from "~/atoms/form/PersonForm";
+import { PersonForm, PersonHandler } from "~/atoms/form/PersonForm";
 import { H1 } from "~/atoms/typography/H1";
 import { H3 } from "~/atoms/typography/H3";
 
@@ -38,10 +39,22 @@ export const PersonsPage = () => {
     console.log("onDelete", data);
   };
 
-  const handleAddPerson = (data: PersonFormValues) => {
+  const handleAddPerson: PersonHandler = (data, resetForm) => {
     // eslint-disable-next-line no-console
     console.log("onAdd", data);
+    personAddedToast();
+    resetForm();
   };
+
+  const personAddedToast = () => {
+    toast.success("Person added successfully");
+  };
+
+  /**
+   * const personAddedFailureToast = () => {
+   *   toast.error("Failed to add person");
+   * };
+   */
 
   return (
     <PageContent>

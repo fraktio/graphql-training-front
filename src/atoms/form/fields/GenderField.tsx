@@ -13,7 +13,7 @@ export const genderValidation = Yup.string()
   .test(
     "oneOfGender",
     "Male, female or other",
-    (item) => !!item && ["MALE", "FEMALE", "OTHEr"].includes(item),
+    (item) => !!item && ["MALE", "FEMALE", "OTHER"].includes(item),
   )
   .required("Gender is required");
 
@@ -34,7 +34,7 @@ export const GenderField = (props: InputProps): ReactElement => {
       placeholder="Gender"
       isError={!!error}
       options={[
-        { value: "", label: "Pick", disabled: true },
+        { value: "pick", label: "Pick", disabled: true },
         { value: "MALE", label: "Male" },
         { value: "FEMALE", label: "Female" },
         { value: "OTHER", label: "Other" },
