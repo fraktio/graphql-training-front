@@ -7,7 +7,7 @@ import { Maybe } from "~/generated/graphql";
 import { Company, CompanyCard } from "~/molecules/CompanyCard";
 
 type PersonType = {
-  readonly UUID: string;
+  readonly id: string;
   readonly firstName: string;
   readonly lastName: string;
   readonly age: Maybe<number>;

@@ -50,8 +50,8 @@ export type AddCompanySuccess = {
 };
 
 export type AddEmployeeInput = {
-  readonly companyUUID: Scalars['UUID'];
-  readonly personUUID: Scalars['UUID'];
+  readonly companyId: Scalars['UUID'];
+  readonly personId: Scalars['UUID'];
 };
 
 export type AddEmployeeOutput = AddEmployeeSuccess;
@@ -76,7 +76,7 @@ export type AddPersonPersonInput = {
   readonly lastName: Maybe<Scalars['StringWithMaxLength50AndMinLength1']>;
   readonly nationality: Scalars['CountryCode'];
   readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
-  readonly phone: Maybe<Scalars['Phone']>;
+  readonly phone: Scalars['Phone'];
 };
 
 export type AddPersonSuccess = {
@@ -87,13 +87,13 @@ export type AddPersonSuccess = {
 /** Adult is over 16 years old Person */
 export type Adult = Person & {
   readonly __typename: 'Adult';
-  readonly UUID: Scalars['UUID'];
   readonly age: Maybe<Scalars['Int']>;
   readonly birthday: Scalars['Date'];
   readonly email: Scalars['Email'];
   readonly employers: ReadonlyArray<Company>;
   readonly firstName: Scalars['String'];
   readonly gender: Gender;
+  readonly id: Scalars['UUID'];
   readonly lastName: Scalars['String'];
   readonly nationality: Scalars['CountryCode'];
   /** Requires authentication and ADMIN privileges */
@@ -121,8 +121,8 @@ export enum CacheControlScope {
 
 export type Company = {
   readonly __typename: 'Company';
-  readonly UUID: Scalars['UUID'];
   readonly employees: ReadonlyArray<Adult>;
+  readonly id: Scalars['UUID'];
   readonly name: Scalars['String'];
   readonly timestamp: Timestamp;
 };
@@ -149,7 +149,7 @@ export type CompanyInput = {
 export type CompanyOutput = CompanyFailureNotFound | CompanySuccess;
 
 export type CompanyQuery = {
-  readonly UUID: Scalars['UUID'];
+  readonly id: Scalars['UUID'];
 };
 
 export type CompanySuccess = {
@@ -172,8 +172,8 @@ export type EditCompanyFailureNotFound = {
 };
 
 export type EditCompanyInput = {
-  readonly UUID: Scalars['UUID'];
   readonly company: CompanyInput;
+  readonly id: Scalars['UUID'];
 };
 
 export type EditCompanyOutput = EditCompanyFailureNotFound | EditCompanySuccess;
@@ -184,7 +184,7 @@ export type EditCompanySuccess = {
 };
 
 export type EditPersonInput = {
-  readonly UUID: Scalars['UUID'];
+  readonly id: Scalars['UUID'];
   readonly person: AddPersonPersonInput;
 };
 
@@ -258,8 +258,10 @@ export type Mutation = {
   readonly __typename: 'Mutation';
   readonly addCompany: AddCompanyOutput;
   readonly addEmployee: AddEmployeeOutput;
+  /** Creates new person  */
   readonly addPerson: AddPersonOutput;
   readonly editCompany: EditCompanyOutput;
+  /** Edit existing person */
   readonly editPerson: EditPersonOutput;
   readonly fileMetadata: FileMetadataResponse;
   readonly login: LoginUserResponse;
@@ -352,12 +354,12 @@ export type PaginationInput = {
 };
 
 export type Person = {
-  readonly UUID: Scalars['UUID'];
   readonly age: Maybe<Scalars['Int']>;
   readonly birthday: Scalars['Date'];
   readonly email: Scalars['Email'];
   readonly firstName: Scalars['String'];
   readonly gender: Gender;
+  readonly id: Scalars['UUID'];
   readonly lastName: Scalars['String'];
   readonly nationality: Scalars['CountryCode'];
   /** Requires authentication and ADMIN privileges */
@@ -378,7 +380,7 @@ export type PersonFilterOperationInput = {
 };
 
 export type PersonInput = {
-  readonly UUID: Scalars['UUID'];
+  readonly id: Scalars['UUID'];
 };
 
 export enum PersonSortField {
@@ -409,14 +411,24 @@ export type PersonsPaginationResponse = {
 
 export type Query = {
   readonly __typename: 'Query';
+  /** Returns all persons as list */
   readonly allPersons: ReadonlyArray<Person>;
   readonly authenticatedUser: AuthenticatedUserResponse;
-  /** Cached person query is cached for 120 seconds */
+  /** Returns cached person. requires authentication. cahed for 120 seconds */
   readonly cachedPerson: Person;
   readonly companies: ReadonlyArray<Company>;
   readonly company: CompanyOutput;
   readonly numberFact: NumberFactOutput;
+  /** Returns person. requires authentication. */
   readonly person: Person;
+  /**
+   * ### Paginated header result
+   *
+   * **input arguments**
+   * 1. filter
+   * 2. sort
+   * 3. pagination - mandatory
+   */
   readonly persons: PersonsPaginationOutput;
 };
 
@@ -477,8 +489,8 @@ export type RegisterSuccess = {
 };
 
 export type RemoveEmployeeInput = {
-  readonly companyUUID: Scalars['UUID'];
-  readonly personUUID: Scalars['UUID'];
+  readonly companyId: Scalars['UUID'];
+  readonly personId: Scalars['UUID'];
 };
 
 export type RemoveEmployeeOutput = RemoveEmployeeSuccess;
@@ -521,12 +533,12 @@ export type Timestamp = {
 /** Underage is under 16 years old Person */
 export type Underage = Person & {
   readonly __typename: 'Underage';
-  readonly UUID: Scalars['UUID'];
   readonly age: Maybe<Scalars['Int']>;
   readonly birthday: Scalars['Date'];
   readonly email: Scalars['Email'];
   readonly firstName: Scalars['String'];
   readonly gender: Gender;
+  readonly id: Scalars['UUID'];
   readonly lastName: Scalars['String'];
   readonly nationality: Scalars['CountryCode'];
   /** Requires authentication and ADMIN privileges */
@@ -544,46 +556,46 @@ export type UniqueConstraintViolationFailure = FailureOutput & {
 
 export type User = {
   readonly __typename: 'User';
-  readonly UUID: Scalars['UUID'];
+  readonly id: Scalars['UUID'];
   readonly username: Scalars['String'];
 };
 
-export type AuthenticatedUserFragment = { readonly __typename: 'User', readonly UUID: any, readonly username: string };
+export type AuthenticatedUserFragment = { readonly __typename: 'User', readonly id: any, readonly username: string };
 
 export type AuthenticatedUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AuthenticatedUserQuery = { readonly __typename: 'Query', readonly authenticatedUser: { readonly __typename: 'AuthenticatedUserFailure', readonly success: boolean } | { readonly __typename: 'AuthenticatedUserSuccess', readonly user: { readonly __typename: 'User', readonly UUID: any, readonly username: string } } };
+export type AuthenticatedUserQuery = { readonly __typename: 'Query', readonly authenticatedUser: { readonly __typename: 'AuthenticatedUserFailure', readonly success: boolean } | { readonly __typename: 'AuthenticatedUserSuccess', readonly user: { readonly __typename: 'User', readonly id: any, readonly username: string } } };
 
 export type LoginMutationVariables = Exact<{
   input: LoginUserInput;
 }>;
 
 
-export type LoginMutation = { readonly __typename: 'Mutation', readonly login: { readonly __typename: 'LoginUserFailure', readonly success: boolean } | { readonly __typename: 'LoginUserSuccess', readonly user: { readonly __typename: 'User', readonly UUID: any, readonly username: string } } };
+export type LoginMutation = { readonly __typename: 'Mutation', readonly login: { readonly __typename: 'LoginUserFailure', readonly success: boolean } | { readonly __typename: 'LoginUserSuccess', readonly user: { readonly __typename: 'User', readonly id: any, readonly username: string } } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = { readonly __typename: 'Mutation', readonly logout: boolean };
 
-export type AdultFragment = { readonly __typename: 'Adult', readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly UUID: any, readonly name: string }> };
+export type AdultFragment = { readonly __typename: 'Adult', readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> };
 
 export type AllPersonsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllPersonsQuery = { readonly __typename: 'Query', readonly allPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly UUID: any, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly UUID: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly UUID: any, readonly birthday: any, readonly age: Maybe<number> }> };
+export type AllPersonsQuery = { readonly __typename: 'Query', readonly allPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly age: Maybe<number> }> };
 
 export const AuthenticatedUserFragmentDoc = gql`
     fragment AuthenticatedUser on User {
-  UUID
+  id
   username
 }
     `;
 export const AdultFragmentDoc = gql`
     fragment Adult on Adult {
   employers {
-    UUID
+    id
     name
   }
 }
@@ -704,7 +716,7 @@ export const AllPersonsDocument = gql`
   allPersons {
     firstName
     lastName
-    UUID
+    id
     birthday
     age @client
     ...Adult

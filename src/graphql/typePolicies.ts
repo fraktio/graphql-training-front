@@ -2,8 +2,6 @@ import { TypePolicies } from "@apollo/client";
 
 export const typePolicies: TypePolicies = {
   Person: {
-    keyFields: ["UUID"],
-
     fields: {
       birthday: {
         read: (field: string) => new Date(field),
@@ -23,8 +21,5 @@ export const typePolicies: TypePolicies = {
         },
       },
     },
-  },
-  Company: {
-    keyFields: ["UUID"],
   },
 };

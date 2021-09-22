@@ -71,7 +71,7 @@ export const ComponentsPage = (): ReactElement => {
         {({ allPersons }) => (
           <UsersGrid>
             {allPersons.map((person) => (
-              <PersonCard key={person.UUID} person={person} />
+              <PersonCard key={person.id} person={person} />
             ))}
           </UsersGrid>
         )}

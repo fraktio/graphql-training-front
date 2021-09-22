@@ -83,7 +83,7 @@ export const DirectCachePage = () => {
 
   const handleDeletePerson = (person: Person) => {
     // Tehävä X, poista käyttääjä cachesta
-    removePersonFromCache(client, person.UUID);
+    removePersonFromCache(client, person.id);
   };
 
   const handleAddPet = () => {
@@ -137,7 +137,7 @@ export const DirectCachePage = () => {
           <UsersGrid>
             {allPersons.map((person) => (
               <PersonCard
-                key={person.UUID}
+                key={person.id}
                 person={person}
                 onDelete={handleDeletePerson}
               />

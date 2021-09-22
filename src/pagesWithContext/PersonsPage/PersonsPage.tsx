@@ -12,22 +12,22 @@ import { Person, PersonCard } from "~/molecules/PersonCard";
 
 const persons = [
   {
-    UUID: "0",
+    id: "0",
     firstName: "Harvey",
     lastName: "Leuschke",
   },
   {
-    UUID: "1",
+    id: "1",
     firstName: "Dawn",
     lastName: "Blick",
   },
   {
-    UUID: "2",
+    id: "2",
     firstName: "Donald",
     lastName: "Kris",
   },
   {
-    UUID: "3",
+    id: "3",
     firstName: "Margarita",
     lastName: "Ondricka",
   },
@@ -66,7 +66,7 @@ export const PersonsPage = () => {
           <UsersGrid>
             {persons.map((person) => (
               <PersonCard
-                key={person.UUID}
+                key={person.id}
                 person={person}
                 onDelete={handleDeletePerson}
               />

@@ -1,6 +1,6 @@
 fragment Adult on Adult {
   employers {
-    UUID
+    id
     name
   }
 }
@@ -9,7 +9,7 @@ query AllPersons {
   allPersons {
     firstName
     lastName
-    UUID
+    id
     birthday
     age @client
     ...Adult

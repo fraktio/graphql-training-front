@@ -1,5 +1,5 @@
 fragment AuthenticatedUser on User {
-    UUID
+    id
     username
 }
 
