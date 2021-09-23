@@ -55,8 +55,12 @@ export const TrainingHeader = (props: Props): ReactElement | null => {
         <Letter fonts={fonts}>a</Letter>
         <Letter fonts={fonts}>p</Letter>
         <Letter fonts={fonts}>h</Letter>
-        <Letter fonts={fonts}>Q</Letter>
-        <Letter fonts={fonts}>L</Letter>
+        <Letter fonts={fonts} isCap={true}>
+          Q
+        </Letter>
+        <Letter fonts={fonts} isCap={true}>
+          L
+        </Letter>
         <br />
         <Letter fonts={fonts} isCap={true}>
           T
