@@ -79,7 +79,7 @@ export const GlobalStyles = (): JSX.Element => {
 };
 
 export const fontSizes = {
-  h1: scale(12.5),
+  h1: scale(16),
   h2: scale(8),
   h3: scale(6.25),
   h4: scale(5),

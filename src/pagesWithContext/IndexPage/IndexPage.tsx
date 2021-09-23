@@ -19,6 +19,7 @@ import { useAllPersonsQuery } from "~/generated/graphql";
 import { PersonCard } from "~/molecules/PersonCard";
 import { QueryWrapper } from "~/molecules/QueryWrapper";
 import { ToggleAuthenticationButton } from "~/molecules/ToggleAuthenticationButton";
+import { TrainingHeader } from "~/molecules/TraininHeader";
 
 export const IndexPage = (): ReactElement => {
   const query = useAllPersonsQuery();
@@ -31,6 +32,7 @@ export const IndexPage = (): ReactElement => {
   return (
     <PageContent isNarrow>
       <ToggleAuthenticationButton />
+      <TrainingHeader />
       <Section>
         <H1>GRAPHQL TRAINING</H1>
         <H2>GRAPHQL TRAINING</H2>
