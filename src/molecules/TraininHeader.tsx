@@ -90,6 +90,12 @@ const getRandomFont = (set: Set<string>): string => {
   return items[Math.floor(Math.random() * items.length)];
 };
 
+function useForceUpdate() {
+  const [_, setValue] = useState(0); // integer state
+
+  return () => setValue((value) => value + 1);
+}
+
 const Letter = ({
   children,
   fonts,
@@ -108,8 +114,11 @@ transform: scaleX(-1);
 filter: fliph;`
     : "";
 
+  const handleForceUpdate = useForceUpdate();
+
   return (
     <span
+      onClick={handleForceUpdate}
       className={css`
         font-family: "${getRandomFont(fonts)}";
         color: ${randomColor()};
@@ -118,6 +127,7 @@ filter: fliph;`
         padding: 0.5rem;
         text-transform: uppercase;
         font-size: ${isCap ? "6rem" : "4.5rem"};
+        cursor: pointer;
         ${flip}
       `}
     >
