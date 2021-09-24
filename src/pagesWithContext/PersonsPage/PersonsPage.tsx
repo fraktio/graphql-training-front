@@ -6,76 +6,71 @@ import { PageContent } from "~/atoms/PageContent";
 import { TwoColumnSection } from "~/atoms/TwoColumnSection";
 import { UsersGrid } from "~/atoms/UsersGrid";
 import { PersonForm, PersonHandler } from "~/atoms/form/PersonForm";
-import { H1 } from "~/atoms/typography/H1";
 import { H3 } from "~/atoms/typography/H3";
-import { Person, PersonCard } from "~/molecules/PersonCard";
-
-const persons = [
-  {
-    id: "0",
-    firstName: "Harvey",
-    lastName: "Leuschke",
-  },
-  {
-    id: "1",
-    firstName: "Dawn",
-    lastName: "Blick",
-  },
-  {
-    id: "2",
-    firstName: "Donald",
-    lastName: "Kris",
-  },
-  {
-    id: "3",
-    firstName: "Margarita",
-    lastName: "Ondricka",
-  },
-];
+import {
+  useAddPersonMutation,
+  useNewestPersonsQuery,
+} from "~/generated/graphql";
+import { Header } from "~/molecules/Header";
+import { PersonCard } from "~/molecules/PersonCard";
+import { QueryWrapper } from "~/molecules/QueryWrapper";
 
 export const PersonsPage = () => {
-  const handleDeletePerson = (data: Person) => {
-    // eslint-disable-next-line no-console
-    console.log("onDelete", data);
-  };
+  const personsData = useNewestPersonsQuery({
+    onError: () => personAddedFailureToast(),
+  });
+
+  const [addPersonMutation] = useAddPersonMutation({
+    onCompleted: (data) => {
+      if (data.addPerson.__typename === "AddPersonSuccess") {
+        personAddedSuccessToast();
+        personsData.refetch();
+      }
+    },
+    onError: (error) => {
+      personAddedFailureToast(error.message);
+    },
+  });
 
   const handleAddPerson: PersonHandler = (data, resetForm) => {
-    // eslint-disable-next-line no-console
-    console.log("onAdd", data);
-    personAddedToast();
+    addPersonMutation({
+      variables: {
+        input: {
+          person: data,
+        },
+      },
+    });
     resetForm();
   };
 
-  const personAddedToast = () => {
+  const personAddedSuccessToast = () => {
     toast.success("Person added successfully");
   };
 
-  /**
-   * const personAddedFailureToast = () => {
-   *   toast.error("Failed to add person");
-   * };
-   */
+  const personAddedFailureToast = (message?: string) => {
+    toast.error(`Failed to add person${message ? `: ${message}` : ""}`);
+  };
 
   return (
     <PageContent>
-      <H1>Persons Page</H1>
+      <Header title="Persons Page" showBack />
 
       <TwoColumnSection>
         <div>
           <H3>Persons</H3>
-          <UsersGrid>
-            {persons.map((person) => (
-              <PersonCard
-                key={person.id}
-                person={person}
-                onDelete={handleDeletePerson}
-              />
-            ))}
-          </UsersGrid>
+          <QueryWrapper query={personsData}>
+            {({ newestPersons }) => (
+              <UsersGrid>
+                {newestPersons.map((person) => (
+                  <PersonCard key={person.id} person={person} />
+                ))}
+              </UsersGrid>
+            )}
+          </QueryWrapper>
         </div>
 
         <div>
-          <H3>ADD PERSON</H3>
+          <H3>Add Person</H3>
           <Card>
             <PersonForm onPerson={handleAddPerson} />
           </Card>

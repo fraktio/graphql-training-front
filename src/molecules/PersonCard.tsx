@@ -3,6 +3,7 @@ import React, { ReactElement } from "react";
 import { Button } from "~/atoms/Button";
 import { Card } from "~/atoms/Card";
 import { Paragraph } from "~/atoms/typography/Paragraph";
+import { scale } from "~/design";
 import { Maybe } from "~/generated/graphql";
 import { Company, CompanyCard } from "~/molecules/CompanyCard";
 
@@ -42,11 +43,17 @@ export const PersonCard = ({ person, onDelete }: Props): ReactElement => {
     <Card noMargin>
       <Paragraph>{fullName}</Paragraph>
       <Paragraph>Age: {person.age}</Paragraph>
+
       {onDelete && <Button onClick={handleOnClick}>Delete</Button>}
-      {person.__typename === "Adult" &&
-        person.employers.map((employer) => (
-          <CompanyCard key={employer.UUID} company={employer} />
-        ))}
+
+      {person.__typename === "Adult" && Boolean(person.employers.length) && (
+        <div css={{ marginTop: scale(6) }}>
+          <Paragraph>Employers:</Paragraph>
+          {person.employers.map((employer) => (
+            <CompanyCard background key={employer.id} company={employer} />
+          ))}
+        </div>
+      )}
     </Card>
   );
 };

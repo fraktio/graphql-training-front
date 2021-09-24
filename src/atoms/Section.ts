@@ -2,6 +2,10 @@ import styled from "@emotion/styled";
 
 import { scale } from "~/design";
 
-export const Section = styled.section({
-  marginBottom: scale(12),
-});
+type Props = {
+  small?: boolean;
+};
+
+export const Section = styled.section<Props>(({ small }) => ({
+  marginBottom: small ? scale(4) : scale(12),
+}));

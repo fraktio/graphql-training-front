@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import { gql, useApolloClient, useQuery, ApolloClient } from "@apollo/client";
+import faker from "faker";
 import React, { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -9,10 +10,8 @@ import { PageContent } from "~/atoms/PageContent";
 import { PetCard } from "~/atoms/PetCard";
 import { PetsGrid } from "~/atoms/PetsGrid";
 import { Section } from "~/atoms/Section";
-import { UsersGrid } from "~/atoms/UsersGrid";
 import { H3 } from "~/atoms/typography/H3";
-import { AllPersonsQuery } from "~/generated/graphql";
-import { PersonCard, Person } from "~/molecules/PersonCard";
+import { Header } from "~/molecules/Header";
 import { QueryWrapper } from "~/molecules/QueryWrapper";
 
 /**
@@ -49,15 +48,11 @@ type PetsQuery = {
   }>;
 };
 
-const PERSONS_QUERY = gql`
-  query AllPersons {
-    allPersons {
-      firstName
-      lastName
-      UUID
-    }
-  }
-`;
+const createPet = () => ({
+  uuid: uuidv4(),
+  __typename: "Pet",
+  name: faker.name.firstName(),
+});
 
 export const DirectCachePage = () => {
   const client = useApolloClient();
@@ -65,26 +60,10 @@ export const DirectCachePage = () => {
   useEffect(() => {
     client.writeQuery({
       query: PETS_QUERY,
-      data: { pets: [] },
+      data: { pets: [createPet()] },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const personsData = useQuery<AllPersonsQuery>(PERSONS_QUERY);
-  console.log("NETWORK ONLY DATA", personsData.data);
-
-  // Add refetch()
-  // const [deletePerson] = useMutation;
-
-  const personsFromCache = client.readQuery({
-    query: PERSONS_QUERY,
-  });
-  console.log("DIRECTLY READ FROM CACHE", personsFromCache);
-
-  const handleDeletePerson = (person: Person) => {
-    // Tehävä X, poista käyttääjä cachesta
-    removePersonFromCache(client, person.id);
-  };
 
   const handleAddPet = () => {
     const petsData = client.readQuery({
@@ -93,16 +72,10 @@ export const DirectCachePage = () => {
 
     const pets = petsData ? petsData.pets : [];
 
-    const newPet = {
-      uuid: uuidv4(),
-      __typename: "Pet",
-      name: "Lullake",
-    };
-
     client.writeQuery({
       query: PETS_QUERY,
       data: {
-        pets: [...pets, newPet],
+        pets: [...pets, createPet()],
       },
     });
   };
@@ -113,6 +86,8 @@ export const DirectCachePage = () => {
 
   return (
     <PageContent isNarrow>
+      <Header title="Cache Demo" showBack />
+
       <Section>
         <H3>Cache only PETS</H3>
         <Button onClick={handleAddPet}>Add pet</Button>
@@ -130,21 +105,6 @@ export const DirectCachePage = () => {
           }
         </QueryWrapper>
       </Section>
-
-      <H3>Persons directly readed from cache (no remote query)</H3>
-      <QueryWrapper query={personsData}>
-        {({ allPersons }) => (
-          <UsersGrid>
-            {allPersons.map((person) => (
-              <PersonCard
-                key={person.id}
-                person={person}
-                onDelete={handleDeletePerson}
-              />
-            ))}
-          </UsersGrid>
-        )}
-      </QueryWrapper>
     </PageContent>
   );
 };

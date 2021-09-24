@@ -411,13 +411,13 @@ export type PersonsPaginationResponse = {
 
 export type Query = {
   readonly __typename: 'Query';
-  /** Returns all persons as list */
-  readonly allPersons: ReadonlyArray<Person>;
   readonly authenticatedUser: AuthenticatedUserResponse;
   /** Returns cached person. requires authentication. cahed for 120 seconds */
   readonly cachedPerson: Person;
   readonly companies: ReadonlyArray<Company>;
   readonly company: CompanyOutput;
+  /** Returns newest persons as list  */
+  readonly newestPersons: ReadonlyArray<Person>;
   readonly numberFact: NumberFactOutput;
   /** Returns person. requires authentication. */
   readonly person: Person;
@@ -581,10 +581,17 @@ export type LogoutMutation = { readonly __typename: 'Mutation', readonly logout:
 
 export type AdultFragment = { readonly __typename: 'Adult', readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> };
 
-export type AllPersonsQueryVariables = Exact<{ [key: string]: never; }>;
+export type NewestPersonsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllPersonsQuery = { readonly __typename: 'Query', readonly allPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly age: Maybe<number> }> };
+export type NewestPersonsQuery = { readonly __typename: 'Query', readonly newestPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly age: Maybe<number> }> };
+
+export type AddPersonMutationVariables = Exact<{
+  input: AddPersonInput;
+}>;
+
+
+export type AddPersonMutation = { readonly __typename: 'Mutation', readonly addPerson: { readonly __typename: 'AddPersonSuccess', readonly person: { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } | { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } } | { readonly __typename: 'UniqueConstraintViolationFailure', readonly message: string, readonly field: string } };
 
 export const AuthenticatedUserFragmentDoc = gql`
     fragment AuthenticatedUser on User {
@@ -711,9 +718,9 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
-export const AllPersonsDocument = gql`
-    query AllPersons {
-  allPersons {
+export const NewestPersonsDocument = gql`
+    query NewestPersons {
+  newestPersons {
     firstName
     lastName
     id
@@ -725,28 +732,72 @@ export const AllPersonsDocument = gql`
     ${AdultFragmentDoc}`;
 
 /**
- * __useAllPersonsQuery__
+ * __useNewestPersonsQuery__
  *
- * To run a query within a React component, call `useAllPersonsQuery` and pass it any options that fit your needs.
- * When your component renders, `useAllPersonsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useNewestPersonsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNewestPersonsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAllPersonsQuery({
+ * const { data, loading, error } = useNewestPersonsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useAllPersonsQuery(baseOptions?: Apollo.QueryHookOptions<AllPersonsQuery, AllPersonsQueryVariables>) {
+export function useNewestPersonsQuery(baseOptions?: Apollo.QueryHookOptions<NewestPersonsQuery, NewestPersonsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AllPersonsQuery, AllPersonsQueryVariables>(AllPersonsDocument, options);
+        return Apollo.useQuery<NewestPersonsQuery, NewestPersonsQueryVariables>(NewestPersonsDocument, options);
       }
-export function useAllPersonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllPersonsQuery, AllPersonsQueryVariables>) {
+export function useNewestPersonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NewestPersonsQuery, NewestPersonsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AllPersonsQuery, AllPersonsQueryVariables>(AllPersonsDocument, options);
+          return Apollo.useLazyQuery<NewestPersonsQuery, NewestPersonsQueryVariables>(NewestPersonsDocument, options);
         }
-export type AllPersonsQueryHookResult = ReturnType<typeof useAllPersonsQuery>;
-export type AllPersonsLazyQueryHookResult = ReturnType<typeof useAllPersonsLazyQuery>;
-export type AllPersonsQueryResult = Apollo.QueryResult<AllPersonsQuery, AllPersonsQueryVariables>;
+export type NewestPersonsQueryHookResult = ReturnType<typeof useNewestPersonsQuery>;
+export type NewestPersonsLazyQueryHookResult = ReturnType<typeof useNewestPersonsLazyQuery>;
+export type NewestPersonsQueryResult = Apollo.QueryResult<NewestPersonsQuery, NewestPersonsQueryVariables>;
+export const AddPersonDocument = gql`
+    mutation AddPerson($input: AddPersonInput!) {
+  addPerson(input: $input) {
+    ... on AddPersonSuccess {
+      person {
+        id
+        firstName
+        lastName
+        birthday
+      }
+    }
+    ... on UniqueConstraintViolationFailure {
+      message
+      field
+    }
+  }
+}
+    `;
+export type AddPersonMutationFn = Apollo.MutationFunction<AddPersonMutation, AddPersonMutationVariables>;
+
+/**
+ * __useAddPersonMutation__
+ *
+ * To run a mutation, you first call `useAddPersonMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddPersonMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addPersonMutation, { data, loading, error }] = useAddPersonMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddPersonMutation(baseOptions?: Apollo.MutationHookOptions<AddPersonMutation, AddPersonMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddPersonMutation, AddPersonMutationVariables>(AddPersonDocument, options);
+      }
+export type AddPersonMutationHookResult = ReturnType<typeof useAddPersonMutation>;
+export type AddPersonMutationResult = Apollo.MutationResult<AddPersonMutation>;
+export type AddPersonMutationOptions = Apollo.BaseMutationOptions<AddPersonMutation, AddPersonMutationVariables>;

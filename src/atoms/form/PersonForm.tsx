@@ -52,7 +52,7 @@ const createMockValues = (): PersonFormValues => {
   return {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
-    phoneNumber: faker.phone.phoneNumber("040#######"),
+    phone: faker.phone.phoneNumber("040#######"),
     email: faker.internet.email(),
     birthday: DateTime.fromJSDate(parsedSSN.dateOfBirth).toSQLDate(),
     nationality: "FI",
@@ -66,18 +66,18 @@ const createMockValues = (): PersonFormValues => {
 const createDefaultFormValues = (): PersonFormValues => ({
   firstName: "",
   lastName: "",
-  phoneNumber: "",
+  phone: "",
   email: "",
   birthday: "",
   nationality: "FI",
-  gender: "pick",
+  gender: "pick" as Gender,
   personalIdentityCode: FinnishSSN.createWithAge(randomIntFromInterval(16, 80)),
 });
 
 const schema = Yup.object().shape({
   firstName: firstNameValidation,
   lastName: lastNameValidation,
-  phoneNumber: phoneNumberValidation,
+  phone: phoneNumberValidation,
   email: emailValidation,
   birthday: birthdayValidation,
   nationality: nationalityValidation,
@@ -88,11 +88,11 @@ const schema = Yup.object().shape({
 export type PersonFormValues = {
   firstName: string;
   lastName: string;
-  phoneNumber: string;
+  phone: string;
   email: string;
   birthday: string;
   nationality: string;
-  gender: string;
+  gender: Gender;
   personalIdentityCode: string;
 };
 

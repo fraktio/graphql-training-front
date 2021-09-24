@@ -23,6 +23,7 @@ export const colorsLight: Colors = {
   primary: "#1e88e5",
   primaryDarken: "#1a76c7",
   primaryColor: "#ffffff",
+  link: "#1a76c7",
   success: "#4caf50",
   successDarken: "#43a047",
   successColor: "#ffffff",
@@ -30,6 +31,7 @@ export const colorsLight: Colors = {
   card: "#ffffff",
   error: "#e53935",
   border: "#424242",
+  borderSoft: "#9c9c9c",
   text: "#080808",
 };
 
@@ -37,6 +39,7 @@ export const colorsDark: Colors = {
   primary: "#1e88e5",
   primaryDarken: "#1a76c7",
   primaryColor: "#ffffff",
+  link: "#1e88e5",
   success: "#00e676",
   successDarken: "#43a047",
   successColor: "#ffffff",
@@ -44,6 +47,7 @@ export const colorsDark: Colors = {
   card: "#333333",
   error: "#e53935",
   border: "#dfdfdf",
+  borderSoft: "#9c9c9c",
   text: "#ffffff",
 };
 
@@ -93,6 +97,7 @@ type Colors = {
   primary: string;
   primaryDarken: string;
   primaryColor: string;
+  link: string;
   success: string;
   successDarken: string;
   successColor: string;
@@ -100,6 +105,7 @@ type Colors = {
   card: string;
   error: string;
   border: string;
+  borderSoft: string;
   text: string;
 };
 

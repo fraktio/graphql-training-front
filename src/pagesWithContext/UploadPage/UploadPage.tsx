@@ -5,9 +5,9 @@ import { Card } from "~/atoms/Card";
 import { PageContent } from "~/atoms/PageContent";
 import { Section } from "~/atoms/Section";
 import { FileFormValues, FileUploadForm } from "~/atoms/form/FileUploadForm";
-import { H1 } from "~/atoms/typography/H1";
 import { H3 } from "~/atoms/typography/H3";
 import { Paragraph } from "~/atoms/typography/Paragraph";
+import { Header } from "~/molecules/Header";
 import { MutationWrapper } from "~/molecules/MutationWrapper";
 
 type Response = {
@@ -57,9 +57,7 @@ export const UploadPage = () => {
 
   return (
     <PageContent isNarrow>
-      <Section>
-        <H1>Upload</H1>
-      </Section>
+      <Header title="Upload" showBack />
 
       <Section>
         <Card>

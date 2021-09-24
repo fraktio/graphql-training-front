@@ -11,7 +11,7 @@ const PageMaxWidthContent = styled.div<ContentProps>(({ isNarrow }) =>
   mq({
     width: "100%",
     margin: "0 auto",
-    maxWidth: isNarrow ? scale(150) : scale(280),
+    maxWidth: isNarrow ? scale(160) : scale(280),
     padding: scale(8),
     paddingBottom: scale(20),
   }),

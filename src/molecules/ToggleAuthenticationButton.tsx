@@ -21,6 +21,9 @@ export const ToggleAuthenticationButton = () => {
         data.authenticatedUser.__typename === "AuthenticatedUserSuccess",
       );
     },
+    onError: () => {
+      setIsLoggedIn(false);
+    },
   });
 
   const handleLoginSucess = (data: LoginMutation) => {

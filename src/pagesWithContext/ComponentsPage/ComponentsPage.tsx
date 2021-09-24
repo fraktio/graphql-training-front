@@ -15,14 +15,14 @@ import { H2 } from "~/atoms/typography/H2";
 import { H3 } from "~/atoms/typography/H3";
 import { Label } from "~/atoms/typography/Label";
 import { Paragraph } from "~/atoms/typography/Paragraph";
-import { useAllPersonsQuery } from "~/generated/graphql";
+import { useNewestPersonsQuery } from "~/generated/graphql";
 import { PersonCard } from "~/molecules/PersonCard";
 import { QueryWrapper } from "~/molecules/QueryWrapper";
 
 const personDataMapper = (data: PersonFormValues) => ({
   firstName: data.firstName,
   lastName: data.lastName,
-  phoneNumber: data.phoneNumber,
+  phoneNumber: data.phone,
   email: data.email,
   birthday: data.birthday,
   nationality: data.nationality,
@@ -30,7 +30,7 @@ const personDataMapper = (data: PersonFormValues) => ({
 });
 
 export const ComponentsPage = (): ReactElement => {
-  const query = useAllPersonsQuery();
+  const query = useNewestPersonsQuery();
 
   const handlePerson = (data: PersonFormValues) => {
     // eslint-disable-next-line no-console
@@ -68,9 +68,9 @@ export const ComponentsPage = (): ReactElement => {
 
       <H3>PERSONS</H3>
       <QueryWrapper query={query}>
-        {({ allPersons }) => (
+        {({ newestPersons }) => (
           <UsersGrid>
-            {allPersons.map((person) => (
+            {newestPersons.map((person) => (
               <PersonCard key={person.id} person={person} />
             ))}
           </UsersGrid>

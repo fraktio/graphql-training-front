@@ -5,8 +5,8 @@ fragment Adult on Adult {
   }
 }
 
-query AllPersons {
-  allPersons {
+query NewestPersons {
+  newestPersons {
     firstName
     lastName
     id
@@ -16,3 +16,19 @@ query AllPersons {
   }
 }
 
+mutation AddPerson($input: AddPersonInput!) {
+  addPerson(input: $input) {
+    ... on AddPersonSuccess {
+      person {
+        id
+        firstName
+        lastName
+        birthday
+      }
+    }
+    ... on UniqueConstraintViolationFailure {
+      message
+      field
+    }
+  }
+}

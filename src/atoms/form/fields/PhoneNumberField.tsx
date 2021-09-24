@@ -14,17 +14,17 @@ export const phoneNumberValidation = Yup.string()
 export const PhoneNumberField = (props: InputProps): ReactElement => {
   const { formState, register } = useFormContext();
 
-  const error = formState.errors?.phoneNumber?.message;
+  const error = formState.errors?.phone?.message;
 
   return (
     <TextField
-      id="phoneNumber"
+      id="phone"
       type="tel"
       label="Phone number"
       helperText={error ?? null}
       placeholder="Phone number"
       isError={!!error}
-      {...register("phoneNumber")}
+      {...register("phone")}
       {...props}
     />
   );
