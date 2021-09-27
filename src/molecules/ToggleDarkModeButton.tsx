@@ -7,6 +7,7 @@ export const ToggleDarkModeButton = () => {
   const darkModeEnabled = false;
 
   const handleDarkModeToggle = () => {
+    // eslint-disable-next-line no-console
     console.log(
       `Sorry no darkmode implementation. 
       We shall do it later with reactive variable

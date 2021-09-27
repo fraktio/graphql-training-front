@@ -3,7 +3,7 @@ import React from "react";
 
 import { Paragraph } from "~/atoms/typography/Paragraph";
 import { scale } from "~/design";
-import { ToggleDarkMode } from "~/molecules/ToggleDarkMode";
+import { ToggleDarkModeButton } from "~/molecules/ToggleDarkModeButton";
 
 const FooterContainer = styled.div(({ theme }) => ({
   marginTop: scale(10),
@@ -19,7 +19,7 @@ const FooterContainer = styled.div(({ theme }) => ({
 
 export const Footer = (): JSX.Element => (
   <FooterContainer>
-    <ToggleDarkMode />
+    <ToggleDarkModeButton />
 
     <Paragraph>Graphql Traning Fraktio @{new Date().getFullYear()}</Paragraph>
   </FooterContainer>
