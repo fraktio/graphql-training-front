@@ -1,7 +1,7 @@
 overwrite: true
 schema: 
   - "https://graphql-training-api.frakt.io/graphql"
-  - "src/graphql/localSchema.graphql"
+# uncomment on step 10.  - "src/graphql/localSchema.graphql"
 documents: "src/graphql/queries/*.graphql"
 
 config:
@@ -18,8 +18,10 @@ generates:
       avoidOptionals: true
       immutableTypes: true
       nonOptionalTypename: true
-  src/generated/introspection-result.ts:
-    plugins:
-      - fragment-matcher
-    config:
-      apolloClientVersion: 3
+
+  # uncomment on step 9.    
+  #src/generated/introspection-result.ts:
+  #  plugins:
+  #   - fragment-matcher
+  #  config:
+  #    apolloClientVersion: 3

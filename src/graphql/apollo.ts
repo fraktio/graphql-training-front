@@ -10,7 +10,6 @@ import { createUploadLink } from "apollo-upload-client";
 import { sha256 } from "crypto-hash";
 
 import { config } from "~/config";
-import generatedIntrospection from "~/generated/introspection-result";
 import { typePolicies } from "~/graphql/typePolicies/typePolicies";
 
 export const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
@@ -26,7 +25,6 @@ export const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
   const client = new ApolloClient({
     credentials: "include",
     cache: new InMemoryCache({
-      possibleTypes: generatedIntrospection.possibleTypes,
       typePolicies: typePolicies,
     }),
     link: from([contentTypeLink, persistedQueriesLink, uploadLink]),

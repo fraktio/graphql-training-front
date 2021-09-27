@@ -2,24 +2,11 @@
 import { TypePolicies } from "@apollo/client";
 
 export const typePoliciesPerson: TypePolicies = {
-  Person: {
+  Adult: {
+    keyFields: ["email"],
     fields: {
       birthday: {
         read: (field: string): Date => new Date(field),
-      },
-      age: {
-        read: (_, { readField }) => {
-          const birthDay = readField("birthday") as Date;
-          if (!birthDay) {
-            return null;
-          }
-
-          const age = Math.floor(
-            (new Date().getTime() - birthDay.getTime()) / 3.15576e10,
-          );
-
-          return age;
-        },
       },
     },
   },
@@ -27,3 +14,8 @@ export const typePoliciesPerson: TypePolicies = {
     keyFields: ["cursor"],
   },
 };
+
+/* Use This to calculate age @ step 10.
+const getAgeFromDate = (date: Date): number =>
+  Math.floor((new Date().getTime() - date.getTime()) / 3.15576e10);
+*/

@@ -12,7 +12,6 @@ query NewestPersons {
     lastName
     id
     birthday
-    age @client
     ...Adult
   }
 }

@@ -87,7 +87,6 @@ export type AddPersonSuccess = {
 /** Adult is over 16 years old Person */
 export type Adult = Person & {
   readonly __typename: 'Adult';
-  readonly age: Maybe<Scalars['Int']>;
   readonly birthday: Scalars['Date'];
   readonly email: Scalars['Email'];
   readonly employers: ReadonlyArray<Company>;
@@ -354,7 +353,6 @@ export type PaginationInput = {
 };
 
 export type Person = {
-  readonly age: Maybe<Scalars['Int']>;
   readonly birthday: Scalars['Date'];
   readonly email: Scalars['Email'];
   readonly firstName: Scalars['String'];
@@ -533,7 +531,6 @@ export type Timestamp = {
 /** Underage is under 16 years old Person */
 export type Underage = Person & {
   readonly __typename: 'Underage';
-  readonly age: Maybe<Scalars['Int']>;
   readonly birthday: Scalars['Date'];
   readonly email: Scalars['Email'];
   readonly firstName: Scalars['String'];
@@ -584,7 +581,7 @@ export type AdultFragment = { readonly __typename: 'Adult', readonly employers: 
 export type NewestPersonsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NewestPersonsQuery = { readonly __typename: 'Query', readonly newestPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly age: Maybe<number> }> };
+export type NewestPersonsQuery = { readonly __typename: 'Query', readonly newestPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any }> };
 
 export type AddPersonMutationVariables = Exact<{
   input: AddPersonInput;
@@ -593,9 +590,9 @@ export type AddPersonMutationVariables = Exact<{
 
 export type AddPersonMutation = { readonly __typename: 'Mutation', readonly addPerson: { readonly __typename: 'AddPersonSuccess', readonly person: { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } | { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } } | { readonly __typename: 'UniqueConstraintViolationFailure', readonly message: string, readonly field: string } };
 
-type Person_Adult_Fragment = { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> };
+type Person_Adult_Fragment = { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> };
 
-type Person_Underage_Fragment = { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly age: Maybe<number> };
+type Person_Underage_Fragment = { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any };
 
 export type PersonFragment = Person_Adult_Fragment | Person_Underage_Fragment;
 
@@ -604,7 +601,7 @@ export type PaginatedPersonsQueryVariables = Exact<{
 }>;
 
 
-export type PaginatedPersonsQuery = { readonly __typename: 'Query', readonly persons: { readonly __typename: 'InvalidCursorFailure' } | { readonly __typename: 'PersonsPaginationResponse', readonly pageInfo: { readonly __typename: 'PageInfo', readonly hasNextPage: boolean }, readonly edges: ReadonlyArray<{ readonly __typename: 'PersonsPaginationEdge', readonly cursor: any, readonly node: { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly age: Maybe<number> } }> } };
+export type PaginatedPersonsQuery = { readonly __typename: 'Query', readonly persons: { readonly __typename: 'InvalidCursorFailure' } | { readonly __typename: 'PersonsPaginationResponse', readonly pageInfo: { readonly __typename: 'PageInfo', readonly hasNextPage: boolean }, readonly edges: ReadonlyArray<{ readonly __typename: 'PersonsPaginationEdge', readonly cursor: any, readonly node: { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } }> } };
 
 export const AuthenticatedUserFragmentDoc = gql`
     fragment AuthenticatedUser on User {
@@ -626,7 +623,6 @@ export const PersonFragmentDoc = gql`
   firstName
   lastName
   birthday
-  age @client
   ...Adult
 }
     ${AdultFragmentDoc}`;
@@ -748,7 +744,6 @@ export const NewestPersonsDocument = gql`
     lastName
     id
     birthday
-    age @client
     ...Adult
   }
 }

@@ -30,7 +30,7 @@ export const NewestPersonsDocument = gql`
     newestPersons {
       firstName
       lastName
-      id
+      email
       birthday
       age @client
       ...Adult
