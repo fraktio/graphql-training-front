@@ -5,6 +5,7 @@ fragment Adult on Adult {
   }
 }
 
+
 query NewestPersons {
   newestPersons {
     firstName

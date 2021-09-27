@@ -1,6 +1,6 @@
 overwrite: true
 schema: 
-  - "https://graphql-training-demo-rgixynsivq-lz.a.run.app/graphql"
+  - "https://graphql-training-api.frakt.io/graphql"
   - "src/graphql/localSchema.graphql"
 documents: "src/graphql/queries/*.graphql"
 

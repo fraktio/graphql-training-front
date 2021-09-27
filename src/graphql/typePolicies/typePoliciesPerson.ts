@@ -1,10 +1,11 @@
+/* eslint-disable max-params */
 import { TypePolicies } from "@apollo/client";
 
-export const typePolicies: TypePolicies = {
+export const typePoliciesPerson: TypePolicies = {
   Person: {
     fields: {
       birthday: {
-        read: (field: string) => new Date(field),
+        read: (field: string): Date => new Date(field),
       },
       age: {
         read: (_, { readField }) => {
@@ -21,5 +22,8 @@ export const typePolicies: TypePolicies = {
         },
       },
     },
+  },
+  PersonsPaginationEdge: {
+    keyFields: ["cursor"],
   },
 };

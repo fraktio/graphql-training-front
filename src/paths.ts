@@ -31,4 +31,8 @@ export const getUploadPath = (): HrefOnly => ({
   href: "/upload",
 });
 
+export const getPaginationPath = (): HrefOnly => ({
+  href: "/pagination",
+});
+
 export const isServerSide = () => typeof window === "undefined";
