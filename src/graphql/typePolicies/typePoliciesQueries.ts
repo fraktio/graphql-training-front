@@ -11,7 +11,6 @@ export const typePoliciesQueries: TypePolicies = {
     fields: {
       persons: {
         keyArgs: false,
-
         merge(
           existing: PersonsPaginationResponse | null,
           incoming: PersonsPaginationOutput,

@@ -5,7 +5,7 @@ export const typePoliciesPerson: TypePolicies = {
   Person: {
     fields: {
       birthday: {
-        read: (field: string) => new Date(field),
+        read: (field: string): Date => new Date(field),
       },
       age: {
         read: (_, { readField }) => {
