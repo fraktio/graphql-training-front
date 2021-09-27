@@ -60,7 +60,6 @@ export const AddPersonDocument = gql`
 export const PersonsPage = () => {
   const { loading, data, refetch } = useQuery<NewestPersonsQuery>(
     NewestPersonsDocument,
-    { onError: () => personAddedFailureToast() },
   );
 
   const [addPersonMutation] = useMutation<
@@ -69,12 +68,8 @@ export const PersonsPage = () => {
   >(AddPersonDocument, {
     onCompleted: (data) => {
       if (data.addPerson.__typename === "AddPersonSuccess") {
-        personAddedSuccessToast();
         refetch();
       }
-    },
-    onError: (error) => {
-      personAddedFailureToast(error.message);
     },
   });
 
