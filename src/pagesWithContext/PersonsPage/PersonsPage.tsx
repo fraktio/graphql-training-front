@@ -1,30 +1,76 @@
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React from "react";
 import { toast } from "react-toastify";
 
 import { Card } from "~/atoms/Card";
+import { Loading } from "~/atoms/Loading";
+import { NotFound } from "~/atoms/NotFound";
 import { PageContent } from "~/atoms/PageContent";
 import { TwoColumnSection } from "~/atoms/TwoColumnSection";
 import { UsersGrid } from "~/atoms/UsersGrid";
 import { PersonForm, PersonHandler } from "~/atoms/form/PersonForm";
 import { H3 } from "~/atoms/typography/H3";
 import {
-  useAddPersonMutation,
-  useNewestPersonsQuery,
+  NewestPersonsQuery,
+  AddPersonMutation,
+  AddPersonMutationVariables,
 } from "~/generated/graphql";
 import { Header } from "~/molecules/Header";
 import { PersonCard } from "~/molecules/PersonCard";
-import { QueryWrapper } from "~/molecules/QueryWrapper";
+
+export const NewestPersonsDocument = gql`
+  fragment Adult on Adult {
+    employers {
+      id
+      name
+    }
+  }
+
+  query NewestPersons {
+    newestPersons {
+      firstName
+      lastName
+      id
+      birthday
+      age @client
+      ...Adult
+    }
+  }
+`;
+
+export const AddPersonDocument = gql`
+  mutation AddPerson($input: AddPersonInput!) {
+    addPerson(input: $input) {
+      ... on AddPersonSuccess {
+        person {
+          id
+          firstName
+          lastName
+          birthday
+        }
+      }
+      ... on UniqueConstraintViolationFailure {
+        message
+        field
+      }
+    }
+  }
+`;
 
 export const PersonsPage = () => {
-  const personsData = useNewestPersonsQuery({
-    onError: () => personAddedFailureToast(),
-  });
+  const { loading, data, refetch } = useQuery<NewestPersonsQuery>(
+    NewestPersonsDocument,
+    { onError: () => personAddedFailureToast() },
+  );
 
-  const [addPersonMutation] = useAddPersonMutation({
+  const [addPersonMutation] = useMutation<
+    AddPersonMutation,
+    AddPersonMutationVariables
+  >(AddPersonDocument, {
     onCompleted: (data) => {
       if (data.addPerson.__typename === "AddPersonSuccess") {
         personAddedSuccessToast();
-        personsData.refetch();
+        refetch();
       }
     },
     onError: (error) => {
@@ -58,15 +104,15 @@ export const PersonsPage = () => {
       <TwoColumnSection>
         <div>
           <H3>Persons</H3>
-          <QueryWrapper query={personsData}>
-            {({ newestPersons }) => (
-              <UsersGrid>
-                {newestPersons.map((person) => (
-                  <PersonCard key={person.id} person={person} />
-                ))}
-              </UsersGrid>
-            )}
-          </QueryWrapper>
+          {!loading && data?.newestPersons && (
+            <UsersGrid>
+              {data.newestPersons.map((person) => (
+                <PersonCard key={person.id} person={person} />
+              ))}
+            </UsersGrid>
+          )}
+          {!loading && data === undefined && <NotFound />}
+          {loading && <Loading />}
         </div>
 
         <div>
