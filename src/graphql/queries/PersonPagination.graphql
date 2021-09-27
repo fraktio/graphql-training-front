@@ -1,0 +1,27 @@
+
+fragment Person on Person {
+  id
+  firstName
+  lastName
+  birthday
+  age @client
+  ...Adult
+}
+
+
+query PaginatedPersons($paginationInput: PaginationInput!) {
+  persons(pagination: $paginationInput) {
+    ... on PersonsPaginationResponse {
+      pageInfo {
+        hasNextPage
+      }
+      edges {
+        cursor
+        node {
+          ... Person
+        }
+      }
+    }
+  }
+
+}

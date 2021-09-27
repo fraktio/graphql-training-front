@@ -1,0 +1,25 @@
+overwrite: true
+schema: 
+  - "https://graphql-training-api.frakt.io/graphql"
+  - "src/graphql/localSchema.graphql"
+documents: "src/graphql/queries/*.graphql"
+
+config:
+  nonOptionalTypename: true
+
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo":
+         withHooks: true
+    config:
+      avoidOptionals: true
+      immutableTypes: true
+      nonOptionalTypename: true
+  src/generated/introspection-result.ts:
+    plugins:
+      - fragment-matcher
+    config:
+      apolloClientVersion: 3

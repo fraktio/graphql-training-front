@@ -1,0 +1,35 @@
+fragment Adult on Adult {
+  employers {
+    id
+    name
+  }
+}
+
+
+query NewestPersons {
+  newestPersons {
+    firstName
+    lastName
+    id
+    birthday
+    age @client
+    ...Adult
+  }
+}
+
+mutation AddPerson($input: AddPersonInput!) {
+  addPerson(input: $input) {
+    ... on AddPersonSuccess {
+      person {
+        id
+        firstName
+        lastName
+        birthday
+      }
+    }
+    ... on UniqueConstraintViolationFailure {
+      message
+      field
+    }
+  }
+}

@@ -1,0 +1,34 @@
+fragment AuthenticatedUser on User {
+    id
+    username
+}
+
+query AuthenticatedUser {
+    authenticatedUser {
+        ... on AuthenticatedUserSuccess {
+            user {
+                ...AuthenticatedUser
+            }
+        }
+        ... on AuthenticatedUserFailure {
+            success
+        }
+    }
+}
+
+mutation Login($input: LoginUserInput!) {
+    login(input: $input) {
+        ... on LoginUserSuccess {
+            user {
+                ...AuthenticatedUser
+            }
+        }
+        ... on LoginUserFailure {
+            success
+        }
+    }
+}
+
+mutation Logout {
+    logout
+}
