@@ -11,7 +11,7 @@ import { sha256 } from "crypto-hash";
 
 import { config } from "~/config";
 import generatedIntrospection from "~/generated/introspection-result";
-import { typePolicies } from "~/graphql/typePolicies";
+import { typePolicies } from "~/graphql/typePolicies/typePolicies";
 
 export const createApolloClient = (): ApolloClient<NormalizedCacheObject> => {
   const uploadLink = createUploadLink({ uri: config.graphqlApiEndpoint });
