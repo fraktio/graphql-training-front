@@ -6,12 +6,7 @@ import { Link } from "~/atoms/typography/Link";
 import { Paragraph } from "~/atoms/typography/Paragraph";
 import { Ul } from "~/atoms/typography/Ul";
 import { TrainingHeader } from "~/molecules/TraininHeader";
-import {
-  getDirectCachePath,
-  getPaginationPath,
-  getPersonsPath,
-  getUploadPath,
-} from "~/paths";
+import { getDirectCachePath, getPersonsPath, getUploadPath } from "~/paths";
 
 export const IndexPage = (): ReactElement => (
   <PageContent isNarrow>
@@ -42,15 +37,6 @@ export const IndexPage = (): ReactElement => (
         <Ul aria-label="Upload demo">
           <li>
             <Link {...getUploadPath()}>Upload demo</Link>
-          </li>
-        </Ul>
-      </li>
-
-      <li>
-        <Paragraph>Pagination demo</Paragraph>
-        <Ul aria-label="Pagination demo">
-          <li>
-            <Link {...getPaginationPath()}>Pagination demo</Link>
           </li>
         </Ul>
       </li>

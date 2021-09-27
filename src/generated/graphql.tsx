@@ -39,78 +39,78 @@ export enum AccessRight {
 }
 
 export type AddCompanyInput = {
-  readonly company: CompanyInput;
+  company: CompanyInput;
 };
 
 export type AddCompanyOutput = AddCompanySuccess;
 
 export type AddCompanySuccess = {
-  readonly __typename: 'AddCompanySuccess';
-  readonly company: Company;
+  __typename: 'AddCompanySuccess';
+  company: Company;
 };
 
 export type AddEmployeeInput = {
-  readonly companyId: Scalars['UUID'];
-  readonly personId: Scalars['UUID'];
+  companyId: Scalars['UUID'];
+  personId: Scalars['UUID'];
 };
 
 export type AddEmployeeOutput = AddEmployeeSuccess;
 
 export type AddEmployeeSuccess = {
-  readonly __typename: 'AddEmployeeSuccess';
-  readonly company: Company;
+  __typename: 'AddEmployeeSuccess';
+  company: Company;
 };
 
 export type AddPersonInput = {
-  readonly person: AddPersonPersonInput;
+  person: AddPersonPersonInput;
 };
 
 export type AddPersonOutput = AddPersonSuccess | UniqueConstraintViolationFailure;
 
 export type AddPersonPersonInput = {
-  readonly birthday: Scalars['Date'];
-  readonly email: Scalars['Email'];
-  readonly firstName: Scalars['String'];
-  readonly gender: Gender;
+  birthday: Scalars['Date'];
+  email: Scalars['Email'];
+  firstName: Scalars['String'];
+  gender: Gender;
   /** Last name has to be minimum of 1 chracters and maximum of 50 */
-  readonly lastName: Maybe<Scalars['StringWithMaxLength50AndMinLength1']>;
-  readonly nationality: Scalars['CountryCode'];
-  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
-  readonly phone: Scalars['Phone'];
+  lastName?: Maybe<Scalars['StringWithMaxLength50AndMinLength1']>;
+  nationality: Scalars['CountryCode'];
+  personalIdentityCode: Scalars['PersonalIdentityCode'];
+  phone: Scalars['Phone'];
 };
 
 export type AddPersonSuccess = {
-  readonly __typename: 'AddPersonSuccess';
-  readonly person: Person;
+  __typename: 'AddPersonSuccess';
+  person: Person;
 };
 
 /** Adult is over 16 years old Person */
 export type Adult = Person & {
-  readonly __typename: 'Adult';
-  readonly birthday: Scalars['Date'];
-  readonly email: Scalars['Email'];
-  readonly employers: ReadonlyArray<Company>;
-  readonly firstName: Scalars['String'];
-  readonly gender: Gender;
-  readonly id: Scalars['UUID'];
-  readonly lastName: Scalars['String'];
-  readonly nationality: Scalars['CountryCode'];
+  __typename: 'Adult';
+  birthday: Scalars['Date'];
+  email: Scalars['Email'];
+  employers: Array<Company>;
+  firstName: Scalars['String'];
+  gender: Gender;
+  id: Scalars['UUID'];
+  lastName: Scalars['String'];
+  nationality: Scalars['CountryCode'];
   /** Requires authentication and ADMIN privileges */
-  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
-  readonly phone: Maybe<Scalars['Phone']>;
-  readonly timestamp: Timestamp;
+  personalIdentityCode: Scalars['PersonalIdentityCode'];
+  phone?: Maybe<Scalars['Phone']>;
+  timestamp: Timestamp;
 };
 
 export type AuthenticatedUserFailure = {
-  readonly __typename: 'AuthenticatedUserFailure';
-  readonly success: Scalars['Boolean'];
+  __typename: 'AuthenticatedUserFailure';
+  success: Scalars['Boolean'];
 };
 
 export type AuthenticatedUserResponse = AuthenticatedUserFailure | AuthenticatedUserSuccess;
 
 export type AuthenticatedUserSuccess = {
-  readonly __typename: 'AuthenticatedUserSuccess';
-  readonly user: User;
+  __typename: 'AuthenticatedUserSuccess';
+  user: User;
 };
 
 export enum CacheControlScope {
@@ -119,104 +119,104 @@ export enum CacheControlScope {
 }
 
 export type Company = {
-  readonly __typename: 'Company';
-  readonly employees: ReadonlyArray<Adult>;
-  readonly id: Scalars['UUID'];
-  readonly name: Scalars['String'];
-  readonly timestamp: Timestamp;
+  __typename: 'Company';
+  employees: Array<Adult>;
+  id: Scalars['UUID'];
+  name: Scalars['String'];
+  timestamp: Timestamp;
 };
 
 export type CompanyFailureNotFound = {
-  readonly __typename: 'CompanyFailureNotFound';
-  readonly success: Scalars['Boolean'];
+  __typename: 'CompanyFailureNotFound';
+  success: Scalars['Boolean'];
 };
 
 export type CompanyFilterInput = {
-  readonly filterOperations: Maybe<ReadonlyArray<CompanyFilterOperationInput>>;
-  readonly nameFilter: Maybe<StringFilter>;
+  filterOperations?: Maybe<Array<CompanyFilterOperationInput>>;
+  nameFilter?: Maybe<StringFilter>;
 };
 
 export type CompanyFilterOperationInput = {
-  readonly filters: Maybe<ReadonlyArray<CompanyFilterInput>>;
-  readonly operator: FilterOperator;
+  filters?: Maybe<Array<CompanyFilterInput>>;
+  operator: FilterOperator;
 };
 
 export type CompanyInput = {
-  readonly name: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type CompanyOutput = CompanyFailureNotFound | CompanySuccess;
 
 export type CompanyQuery = {
-  readonly id: Scalars['UUID'];
+  id: Scalars['UUID'];
 };
 
 export type CompanySuccess = {
-  readonly __typename: 'CompanySuccess';
-  readonly company: Company;
+  __typename: 'CompanySuccess';
+  company: Company;
 };
 
 export type DateFilter = {
-  readonly equal: Maybe<Scalars['Date']>;
-  readonly greaterOrEqualThan: Maybe<Scalars['Date']>;
-  readonly greaterThan: Maybe<Scalars['Date']>;
-  readonly lessOrEqualThan: Maybe<Scalars['Date']>;
-  readonly lessThan: Maybe<Scalars['Date']>;
-  readonly notEqual: Maybe<Scalars['Date']>;
+  equal?: Maybe<Scalars['Date']>;
+  greaterOrEqualThan?: Maybe<Scalars['Date']>;
+  greaterThan?: Maybe<Scalars['Date']>;
+  lessOrEqualThan?: Maybe<Scalars['Date']>;
+  lessThan?: Maybe<Scalars['Date']>;
+  notEqual?: Maybe<Scalars['Date']>;
 };
 
 export type EditCompanyFailureNotFound = {
-  readonly __typename: 'EditCompanyFailureNotFound';
-  readonly success: Maybe<Scalars['Boolean']>;
+  __typename: 'EditCompanyFailureNotFound';
+  success?: Maybe<Scalars['Boolean']>;
 };
 
 export type EditCompanyInput = {
-  readonly company: CompanyInput;
-  readonly id: Scalars['UUID'];
+  company: CompanyInput;
+  id: Scalars['UUID'];
 };
 
 export type EditCompanyOutput = EditCompanyFailureNotFound | EditCompanySuccess;
 
 export type EditCompanySuccess = {
-  readonly __typename: 'EditCompanySuccess';
-  readonly company: Company;
+  __typename: 'EditCompanySuccess';
+  company: Company;
 };
 
 export type EditPersonInput = {
-  readonly id: Scalars['UUID'];
-  readonly person: AddPersonPersonInput;
+  id: Scalars['UUID'];
+  person: AddPersonPersonInput;
 };
 
 export type EditPersonOutput = EditPersonSuccess | NotFoundFailure | UniqueConstraintViolationFailure;
 
 export type EditPersonSuccess = {
-  readonly __typename: 'EditPersonSuccess';
-  readonly person: Person;
+  __typename: 'EditPersonSuccess';
+  person: Person;
 };
 
 export type FailureOutput = {
-  readonly field: Scalars['String'];
-  readonly message: Scalars['String'];
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type File = {
-  readonly __typename: 'File';
-  readonly encoding: Scalars['String'];
-  readonly filename: Scalars['String'];
-  readonly mimetype: Scalars['String'];
+  __typename: 'File';
+  encoding: Scalars['String'];
+  filename: Scalars['String'];
+  mimetype: Scalars['String'];
 };
 
 export type FileMetadataInvalidFile = FailureOutput & {
-  readonly __typename: 'FileMetadataInvalidFile';
-  readonly field: Scalars['String'];
-  readonly message: Scalars['String'];
+  __typename: 'FileMetadataInvalidFile';
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type FileMetadataResponse = FileMetadataInvalidFile | FileMetadataSuccess;
 
 export type FileMetadataSuccess = {
-  readonly __typename: 'FileMetadataSuccess';
-  readonly metadata: File;
+  __typename: 'FileMetadataSuccess';
+  metadata: File;
 };
 
 export enum FilterOperator {
@@ -231,42 +231,42 @@ export enum Gender {
 }
 
 export type InvalidCursorFailure = FailureOutput & {
-  readonly __typename: 'InvalidCursorFailure';
-  readonly field: Scalars['String'];
-  readonly message: Scalars['String'];
+  __typename: 'InvalidCursorFailure';
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type LoginUserFailure = {
-  readonly __typename: 'LoginUserFailure';
-  readonly success: Scalars['Boolean'];
+  __typename: 'LoginUserFailure';
+  success: Scalars['Boolean'];
 };
 
 export type LoginUserInput = {
-  readonly password: Scalars['String'];
-  readonly username: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type LoginUserResponse = LoginUserFailure | LoginUserSuccess;
 
 export type LoginUserSuccess = {
-  readonly __typename: 'LoginUserSuccess';
-  readonly user: User;
+  __typename: 'LoginUserSuccess';
+  user: User;
 };
 
 export type Mutation = {
-  readonly __typename: 'Mutation';
-  readonly addCompany: AddCompanyOutput;
-  readonly addEmployee: AddEmployeeOutput;
+  __typename: 'Mutation';
+  addCompany: AddCompanyOutput;
+  addEmployee: AddEmployeeOutput;
   /** Creates new person  */
-  readonly addPerson: AddPersonOutput;
-  readonly editCompany: EditCompanyOutput;
+  addPerson: AddPersonOutput;
+  editCompany: EditCompanyOutput;
   /** Edit existing person */
-  readonly editPerson: EditPersonOutput;
-  readonly fileMetadata: FileMetadataResponse;
-  readonly login: LoginUserResponse;
-  readonly logout: Scalars['Boolean'];
-  readonly register: RegisterResponse;
-  readonly removeEmployee: RemoveEmployeeOutput;
+  editPerson: EditPersonOutput;
+  fileMetadata: FileMetadataResponse;
+  login: LoginUserResponse;
+  logout: Scalars['Boolean'];
+  register: RegisterResponse;
+  removeEmployee: RemoveEmployeeOutput;
 };
 
 
@@ -315,70 +315,70 @@ export type MutationRemoveEmployeeArgs = {
 };
 
 export type NotFoundFailure = FailureOutput & {
-  readonly __typename: 'NotFoundFailure';
-  readonly field: Scalars['String'];
-  readonly message: Scalars['String'];
+  __typename: 'NotFoundFailure';
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type NumberFact = {
-  readonly __typename: 'NumberFact';
-  readonly fact: Scalars['String'];
-  readonly number: Scalars['Int'];
+  __typename: 'NumberFact';
+  fact: Scalars['String'];
+  number: Scalars['Int'];
 };
 
 export type NumberFactFailure = {
-  readonly __typename: 'NumberFactFailure';
-  readonly success: Maybe<Scalars['Boolean']>;
+  __typename: 'NumberFactFailure';
+  success?: Maybe<Scalars['Boolean']>;
 };
 
 export type NumberFactInput = {
-  readonly number: Scalars['Int'];
+  number: Scalars['Int'];
 };
 
 export type NumberFactOutput = NumberFactFailure | NumberFactSuccess;
 
 export type NumberFactSuccess = {
-  readonly __typename: 'NumberFactSuccess';
-  readonly numberFact: NumberFact;
+  __typename: 'NumberFactSuccess';
+  numberFact: NumberFact;
 };
 
 export type PageInfo = {
-  readonly __typename: 'PageInfo';
-  readonly hasNextPage: Scalars['Boolean'];
+  __typename: 'PageInfo';
+  hasNextPage: Scalars['Boolean'];
 };
 
 export type PaginationInput = {
-  readonly cursor: Maybe<Scalars['Cursor']>;
-  readonly limit: Maybe<Scalars['Int']>;
+  cursor?: Maybe<Scalars['Cursor']>;
+  limit?: Maybe<Scalars['Int']>;
 };
 
 export type Person = {
-  readonly birthday: Scalars['Date'];
-  readonly email: Scalars['Email'];
-  readonly firstName: Scalars['String'];
-  readonly gender: Gender;
-  readonly id: Scalars['UUID'];
-  readonly lastName: Scalars['String'];
-  readonly nationality: Scalars['CountryCode'];
+  birthday: Scalars['Date'];
+  email: Scalars['Email'];
+  firstName: Scalars['String'];
+  gender: Gender;
+  id: Scalars['UUID'];
+  lastName: Scalars['String'];
+  nationality: Scalars['CountryCode'];
   /** Requires authentication and ADMIN privileges */
-  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
-  readonly phone: Maybe<Scalars['Phone']>;
-  readonly timestamp: Timestamp;
+  personalIdentityCode: Scalars['PersonalIdentityCode'];
+  phone?: Maybe<Scalars['Phone']>;
+  timestamp: Timestamp;
 };
 
 export type PersonFilterInput = {
-  readonly birthdayFilter: Maybe<DateFilter>;
-  readonly filterOperations: Maybe<ReadonlyArray<PersonFilterOperationInput>>;
-  readonly nameFilter: Maybe<StringFilter>;
+  birthdayFilter?: Maybe<DateFilter>;
+  filterOperations?: Maybe<Array<PersonFilterOperationInput>>;
+  nameFilter?: Maybe<StringFilter>;
 };
 
 export type PersonFilterOperationInput = {
-  readonly filters: Maybe<ReadonlyArray<PersonFilterInput>>;
-  readonly operator: FilterOperator;
+  filters?: Maybe<Array<PersonFilterInput>>;
+  operator: FilterOperator;
 };
 
 export type PersonInput = {
-  readonly id: Scalars['UUID'];
+  id: Scalars['UUID'];
 };
 
 export enum PersonSortField {
@@ -389,36 +389,36 @@ export enum PersonSortField {
 }
 
 export type PersonSortInput = {
-  readonly field: PersonSortField;
-  readonly order: SortOrder;
+  field: PersonSortField;
+  order: SortOrder;
 };
 
 export type PersonsPaginationEdge = {
-  readonly __typename: 'PersonsPaginationEdge';
-  readonly cursor: Scalars['Cursor'];
-  readonly node: Person;
+  __typename: 'PersonsPaginationEdge';
+  cursor: Scalars['Cursor'];
+  node: Person;
 };
 
 export type PersonsPaginationOutput = InvalidCursorFailure | PersonsPaginationResponse;
 
 export type PersonsPaginationResponse = {
-  readonly __typename: 'PersonsPaginationResponse';
-  readonly edges: ReadonlyArray<PersonsPaginationEdge>;
-  readonly pageInfo: PageInfo;
+  __typename: 'PersonsPaginationResponse';
+  edges: Array<PersonsPaginationEdge>;
+  pageInfo: PageInfo;
 };
 
 export type Query = {
-  readonly __typename: 'Query';
-  readonly authenticatedUser: AuthenticatedUserResponse;
+  __typename: 'Query';
+  authenticatedUser: AuthenticatedUserResponse;
   /** Returns cached person. requires authentication. cahed for 120 seconds */
-  readonly cachedPerson: Person;
-  readonly companies: ReadonlyArray<Company>;
-  readonly company: CompanyOutput;
+  cachedPerson: Person;
+  companies: Array<Company>;
+  company: CompanyOutput;
   /** Returns newest persons as list  */
-  readonly newestPersons: ReadonlyArray<Person>;
-  readonly numberFact: NumberFactOutput;
+  newestPersons: Array<Person>;
+  numberFact: NumberFactOutput;
   /** Returns person. requires authentication. */
-  readonly person: Person;
+  person: Person;
   /**
    * ### Paginated header result
    *
@@ -427,7 +427,7 @@ export type Query = {
    * 2. sort
    * 3. pagination - mandatory
    */
-  readonly persons: PersonsPaginationOutput;
+  persons: PersonsPaginationOutput;
 };
 
 
@@ -437,7 +437,7 @@ export type QueryCachedPersonArgs = {
 
 
 export type QueryCompaniesArgs = {
-  filters: Maybe<CompanyFilterOperationInput>;
+  filters?: Maybe<CompanyFilterOperationInput>;
 };
 
 
@@ -457,45 +457,45 @@ export type QueryPersonArgs = {
 
 
 export type QueryPersonsArgs = {
-  filters: Maybe<PersonFilterOperationInput>;
+  filters?: Maybe<PersonFilterOperationInput>;
   pagination: PaginationInput;
-  sort: Maybe<ReadonlyArray<PersonSortInput>>;
+  sort?: Maybe<Array<PersonSortInput>>;
 };
 
 export type RegisterFailure = {
-  readonly __typename: 'RegisterFailure';
-  readonly success: Scalars['Boolean'];
+  __typename: 'RegisterFailure';
+  success: Scalars['Boolean'];
 };
 
 export type RegisterFailureAlreadyExists = {
-  readonly __typename: 'RegisterFailureAlreadyExists';
-  readonly success: Scalars['Boolean'];
+  __typename: 'RegisterFailureAlreadyExists';
+  success: Scalars['Boolean'];
 };
 
 export type RegisterInput = {
-  readonly email: Scalars['Email'];
-  readonly password: Scalars['String'];
-  readonly phoneNumber: Scalars['Phone'];
-  readonly username: Scalars['String'];
+  email: Scalars['Email'];
+  password: Scalars['String'];
+  phoneNumber: Scalars['Phone'];
+  username: Scalars['String'];
 };
 
 export type RegisterResponse = RegisterFailure | RegisterFailureAlreadyExists | RegisterSuccess;
 
 export type RegisterSuccess = {
-  readonly __typename: 'RegisterSuccess';
-  readonly success: Scalars['Boolean'];
+  __typename: 'RegisterSuccess';
+  success: Scalars['Boolean'];
 };
 
 export type RemoveEmployeeInput = {
-  readonly companyId: Scalars['UUID'];
-  readonly personId: Scalars['UUID'];
+  companyId: Scalars['UUID'];
+  personId: Scalars['UUID'];
 };
 
 export type RemoveEmployeeOutput = RemoveEmployeeSuccess;
 
 export type RemoveEmployeeSuccess = {
-  readonly __typename: 'RemoveEmployeeSuccess';
-  readonly company: Company;
+  __typename: 'RemoveEmployeeSuccess';
+  company: Company;
 };
 
 export enum SortOrder {
@@ -504,95 +504,95 @@ export enum SortOrder {
 }
 
 export type StringFilter = {
-  readonly in: Maybe<ReadonlyArray<Scalars['String']>>;
-  readonly like: Maybe<Scalars['String']>;
+  in?: Maybe<Array<Scalars['String']>>;
+  like?: Maybe<Scalars['String']>;
 };
 
 export type Subscription = {
-  readonly __typename: 'Subscription';
-  readonly personAdded: Person;
+  __typename: 'Subscription';
+  personAdded: Person;
 };
 
 export type TimeFilter = {
-  readonly equal: Maybe<Scalars['DateTime']>;
-  readonly greaterOrEqualThan: Maybe<Scalars['DateTime']>;
-  readonly greaterThan: Maybe<Scalars['DateTime']>;
-  readonly lessOrEqualThan: Maybe<Scalars['DateTime']>;
-  readonly lessThan: Maybe<Scalars['DateTime']>;
-  readonly notEqual: Maybe<Scalars['DateTime']>;
+  equal?: Maybe<Scalars['DateTime']>;
+  greaterOrEqualThan?: Maybe<Scalars['DateTime']>;
+  greaterThan?: Maybe<Scalars['DateTime']>;
+  lessOrEqualThan?: Maybe<Scalars['DateTime']>;
+  lessThan?: Maybe<Scalars['DateTime']>;
+  notEqual?: Maybe<Scalars['DateTime']>;
 };
 
 export type Timestamp = {
-  readonly __typename: 'Timestamp';
-  readonly createdAt: Scalars['DateTime'];
-  readonly modifiedAt: Maybe<Scalars['DateTime']>;
+  __typename: 'Timestamp';
+  createdAt: Scalars['DateTime'];
+  modifiedAt?: Maybe<Scalars['DateTime']>;
 };
 
 /** Underage is under 16 years old Person */
 export type Underage = Person & {
-  readonly __typename: 'Underage';
-  readonly birthday: Scalars['Date'];
-  readonly email: Scalars['Email'];
-  readonly firstName: Scalars['String'];
-  readonly gender: Gender;
-  readonly id: Scalars['UUID'];
-  readonly lastName: Scalars['String'];
-  readonly nationality: Scalars['CountryCode'];
+  __typename: 'Underage';
+  birthday: Scalars['Date'];
+  email: Scalars['Email'];
+  firstName: Scalars['String'];
+  gender: Gender;
+  id: Scalars['UUID'];
+  lastName: Scalars['String'];
+  nationality: Scalars['CountryCode'];
   /** Requires authentication and ADMIN privileges */
-  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
-  readonly phone: Maybe<Scalars['Phone']>;
-  readonly timestamp: Timestamp;
+  personalIdentityCode: Scalars['PersonalIdentityCode'];
+  phone?: Maybe<Scalars['Phone']>;
+  timestamp: Timestamp;
 };
 
 /** Operation fails because some value is not unique */
 export type UniqueConstraintViolationFailure = FailureOutput & {
-  readonly __typename: 'UniqueConstraintViolationFailure';
-  readonly field: Scalars['String'];
-  readonly message: Scalars['String'];
+  __typename: 'UniqueConstraintViolationFailure';
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
 export type User = {
-  readonly __typename: 'User';
-  readonly id: Scalars['UUID'];
-  readonly username: Scalars['String'];
+  __typename: 'User';
+  id: Scalars['UUID'];
+  username: Scalars['String'];
 };
 
-export type AuthenticatedUserFragment = { readonly __typename: 'User', readonly id: any, readonly username: string };
+export type AuthenticatedUserFragment = { __typename: 'User', id: any, username: string };
 
 export type AuthenticatedUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AuthenticatedUserQuery = { readonly __typename: 'Query', readonly authenticatedUser: { readonly __typename: 'AuthenticatedUserFailure', readonly success: boolean } | { readonly __typename: 'AuthenticatedUserSuccess', readonly user: { readonly __typename: 'User', readonly id: any, readonly username: string } } };
+export type AuthenticatedUserQuery = { __typename: 'Query', authenticatedUser: { __typename: 'AuthenticatedUserFailure', success: boolean } | { __typename: 'AuthenticatedUserSuccess', user: { __typename: 'User', id: any, username: string } } };
 
 export type LoginMutationVariables = Exact<{
   input: LoginUserInput;
 }>;
 
 
-export type LoginMutation = { readonly __typename: 'Mutation', readonly login: { readonly __typename: 'LoginUserFailure', readonly success: boolean } | { readonly __typename: 'LoginUserSuccess', readonly user: { readonly __typename: 'User', readonly id: any, readonly username: string } } };
+export type LoginMutation = { __typename: 'Mutation', login: { __typename: 'LoginUserFailure', success: boolean } | { __typename: 'LoginUserSuccess', user: { __typename: 'User', id: any, username: string } } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutMutation = { readonly __typename: 'Mutation', readonly logout: boolean };
+export type LogoutMutation = { __typename: 'Mutation', logout: boolean };
 
-export type AdultFragment = { readonly __typename: 'Adult', readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> };
+export type AdultFragment = { __typename: 'Adult', employers: Array<{ __typename: 'Company', id: any, name: string }> };
 
 export type NewestPersonsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NewestPersonsQuery = { readonly __typename: 'Query', readonly newestPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any }> };
+export type NewestPersonsQuery = { __typename: 'Query', newestPersons: Array<{ __typename: 'Adult', firstName: string, lastName: string, id: any, birthday: any, employers: Array<{ __typename: 'Company', id: any, name: string }> } | { __typename: 'Underage', firstName: string, lastName: string, id: any, birthday: any }> };
 
 export type AddPersonMutationVariables = Exact<{
   input: AddPersonInput;
 }>;
 
 
-export type AddPersonMutation = { readonly __typename: 'Mutation', readonly addPerson: { readonly __typename: 'AddPersonSuccess', readonly person: { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } | { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } } | { readonly __typename: 'UniqueConstraintViolationFailure', readonly message: string, readonly field: string } };
+export type AddPersonMutation = { __typename: 'Mutation', addPerson: { __typename: 'AddPersonSuccess', person: { __typename: 'Adult', id: any, firstName: string, lastName: string, birthday: any } | { __typename: 'Underage', id: any, firstName: string, lastName: string, birthday: any } } | { __typename: 'UniqueConstraintViolationFailure', message: string, field: string } };
 
-type Person_Adult_Fragment = { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> };
+type Person_Adult_Fragment = { __typename: 'Adult', id: any, firstName: string, lastName: string, birthday: any, employers: Array<{ __typename: 'Company', id: any, name: string }> };
 
-type Person_Underage_Fragment = { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any };
+type Person_Underage_Fragment = { __typename: 'Underage', id: any, firstName: string, lastName: string, birthday: any };
 
 export type PersonFragment = Person_Adult_Fragment | Person_Underage_Fragment;
 
@@ -601,7 +601,7 @@ export type PaginatedPersonsQueryVariables = Exact<{
 }>;
 
 
-export type PaginatedPersonsQuery = { readonly __typename: 'Query', readonly persons: { readonly __typename: 'InvalidCursorFailure' } | { readonly __typename: 'PersonsPaginationResponse', readonly pageInfo: { readonly __typename: 'PageInfo', readonly hasNextPage: boolean }, readonly edges: ReadonlyArray<{ readonly __typename: 'PersonsPaginationEdge', readonly cursor: any, readonly node: { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } }> } };
+export type PaginatedPersonsQuery = { __typename: 'Query', persons: { __typename: 'InvalidCursorFailure' } | { __typename: 'PersonsPaginationResponse', pageInfo: { __typename: 'PageInfo', hasNextPage: boolean }, edges: Array<{ __typename: 'PersonsPaginationEdge', cursor: any, node: { __typename: 'Adult', id: any, firstName: string, lastName: string, birthday: any, employers: Array<{ __typename: 'Company', id: any, name: string }> } | { __typename: 'Underage', id: any, firstName: string, lastName: string, birthday: any } }> } };
 
 export const AuthenticatedUserFragmentDoc = gql`
     fragment AuthenticatedUser on User {

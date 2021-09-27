@@ -2,7 +2,7 @@ overwrite: true
 schema: 
   - "https://graphql-training-api.frakt.io/graphql"
 # uncomment on step 10.  - "src/graphql/localSchema.graphql"
-documents: "src/graphql/queries/*.graphql"
+
 
 config:
   nonOptionalTypename: true
@@ -14,10 +14,6 @@ generates:
       - "typescript-operations"
       - "typescript-react-apollo":
          withHooks: true
-    config:
-      avoidOptionals: true
-      immutableTypes: true
-      nonOptionalTypename: true
 
   # uncomment on step 9.    
   #src/generated/introspection-result.ts:
