@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import React from "react";
 import { toast } from "react-toastify";
 
@@ -10,11 +10,7 @@ import { TwoColumnSection } from "~/atoms/TwoColumnSection";
 import { UsersGrid } from "~/atoms/UsersGrid";
 import { PersonForm, PersonHandler } from "~/atoms/form/PersonForm";
 import { H3 } from "~/atoms/typography/H3";
-import {
-  NewestPersonsQuery,
-  AddPersonMutation,
-  AddPersonMutationVariables,
-} from "~/generated/graphql";
+import { NewestPersonsQuery } from "~/generated/graphql";
 import { Header } from "~/molecules/Header";
 import { PersonCard } from "~/molecules/PersonCard";
 
@@ -56,29 +52,9 @@ export const AddPersonDocument = gql`
 `;
 
 export const PersonsPage = () => {
-  const { loading, data, refetch } = useQuery<NewestPersonsQuery>(
-    NewestPersonsDocument,
-  );
-
-  const [addPersonMutation] = useMutation<
-    AddPersonMutation,
-    AddPersonMutationVariables
-  >(AddPersonDocument, {
-    onCompleted: (data) => {
-      if (data.addPerson.__typename === "AddPersonSuccess") {
-        refetch();
-      }
-    },
-  });
+  const { loading, data } = useQuery<NewestPersonsQuery>(NewestPersonsDocument);
 
   const handleAddPerson: PersonHandler = (data, resetForm) => {
-    addPersonMutation({
-      variables: {
-        input: {
-          person: data,
-        },
-      },
-    });
     resetForm();
   };
 
