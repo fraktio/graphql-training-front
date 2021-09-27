@@ -1,18 +1,15 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import React from "react";
 import { toast } from "react-toastify";
 
 import { Card } from "~/atoms/Card";
-import { Loading } from "~/atoms/Loading";
-import { NotFound } from "~/atoms/NotFound";
 import { PageContent } from "~/atoms/PageContent";
 import { TwoColumnSection } from "~/atoms/TwoColumnSection";
 import { UsersGrid } from "~/atoms/UsersGrid";
 import { PersonForm, PersonHandler } from "~/atoms/form/PersonForm";
 import { H3 } from "~/atoms/typography/H3";
-import { NewestPersonsQuery } from "~/generated/graphql";
 import { Header } from "~/molecules/Header";
-import { PersonCard } from "~/molecules/PersonCard";
+import { Person, PersonCard } from "~/molecules/PersonCard";
 
 export const NewestPersonsDocument = gql`
   query NewestPersons {
@@ -51,9 +48,18 @@ export const AddPersonDocument = gql`
   }
 `;
 
-export const PersonsPage = () => {
-  const { loading, data } = useQuery<NewestPersonsQuery>(NewestPersonsDocument);
+const persons: Person[] = [
+  {
+    __typename: "Adult",
+    id: "1",
+    firstName: "Firstname",
+    lastName: "LastName",
+    age: 22,
+    employers: [],
+  },
+];
 
+export const PersonsPage = () => {
   const handleAddPerson: PersonHandler = (data, resetForm) => {
     resetForm();
   };
@@ -73,15 +79,11 @@ export const PersonsPage = () => {
       <TwoColumnSection>
         <div>
           <H3>Persons</H3>
-          {!loading && data?.newestPersons && (
-            <UsersGrid>
-              {data.newestPersons.map((person) => (
-                <PersonCard key={person.id} person={person} />
-              ))}
-            </UsersGrid>
-          )}
-          {!loading && data === undefined && <NotFound />}
-          {loading && <Loading />}
+          <UsersGrid>
+            {persons.map((person) => (
+              <PersonCard key={person.id} person={person} />
+            ))}
+          </UsersGrid>
         </div>
 
         <div>
