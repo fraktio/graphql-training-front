@@ -19,13 +19,6 @@ import { Header } from "~/molecules/Header";
 import { PersonCard } from "~/molecules/PersonCard";
 
 export const NewestPersonsDocument = gql`
-  fragment Adult on Adult {
-    employers {
-      id
-      name
-    }
-  }
-
   query NewestPersons {
     newestPersons {
       firstName
@@ -33,7 +26,12 @@ export const NewestPersonsDocument = gql`
       email
       birthday
       age @client
-      ...Adult
+      ... on Adult {
+        employers {
+          id
+          name
+        }
+      }
     }
   }
 `;
