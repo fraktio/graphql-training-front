@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { ReactNode, ReactElement } from "react";
 
 import { mq, scale } from "~/design";
+import { Footer } from "~/molecules/Footer";
 
 type ContentProps = {
   isNarrow?: boolean;
@@ -9,6 +10,7 @@ type ContentProps = {
 
 const PageMaxWidthContent = styled.div<ContentProps>(({ isNarrow }) =>
   mq({
+    flexShrink: 0,
     width: "100%",
     margin: "0 auto",
     maxWidth: isNarrow ? scale(160) : scale(280),
@@ -23,5 +25,14 @@ type Props = {
 };
 
 export const PageContent = ({ children, isNarrow }: Props): ReactElement => (
-  <PageMaxWidthContent isNarrow={isNarrow}>{children}</PageMaxWidthContent>
+  <div
+    css={{
+      display: "flex",
+      flexDirection: "column",
+      minHeight: "100vh",
+    }}
+  >
+    <PageMaxWidthContent isNarrow={isNarrow}>{children}</PageMaxWidthContent>
+    <Footer />
+  </div>
 );
