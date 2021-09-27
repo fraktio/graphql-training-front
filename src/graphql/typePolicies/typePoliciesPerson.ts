@@ -2,14 +2,6 @@
 import { TypePolicies } from "@apollo/client";
 
 export const typePoliciesPerson: TypePolicies = {
-  Adult: {
-    keyFields: ["email"],
-    fields: {
-      birthday: {
-        read: (field: string): Date => new Date(field),
-      },
-    },
-  },
   PersonsPaginationEdge: {
     keyFields: ["cursor"],
   },
