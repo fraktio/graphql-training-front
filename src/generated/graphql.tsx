@@ -581,7 +581,7 @@ export type AdultFragment = { readonly __typename: 'Adult', readonly employers: 
 export type NewestPersonsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NewestPersonsQuery = { readonly __typename: 'Query', readonly newestPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly id: any, readonly birthday: any }> };
+export type NewestPersonsQuery = { readonly __typename: 'Query', readonly newestPersons: ReadonlyArray<{ readonly __typename: 'Adult', readonly firstName: string, readonly lastName: string, readonly id: any, readonly email: any, readonly birthday: any, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> } | { readonly __typename: 'Underage', readonly firstName: string, readonly lastName: string, readonly id: any, readonly email: any, readonly birthday: any }> };
 
 export type AddPersonMutationVariables = Exact<{
   input: AddPersonInput;
@@ -743,6 +743,7 @@ export const NewestPersonsDocument = gql`
     firstName
     lastName
     id
+    email
     birthday
     ...Adult
   }

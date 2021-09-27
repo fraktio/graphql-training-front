@@ -11,6 +11,7 @@ query NewestPersons {
     firstName
     lastName
     id
+    email
     birthday
     ...Adult
   }
