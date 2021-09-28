@@ -1,7 +1,7 @@
-import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { useState, useEffect, ReactElement } from "react";
 
+import { Letter } from "~/atoms/HeaderLetter";
 import { Row } from "~/atoms/Row";
 import { scale } from "~/design";
 
@@ -17,6 +17,7 @@ type Props = {
 
 export const TrainingHeader = (props: Props): ReactElement | null => {
   const [fonts, setFonts] = useState(new Set<string>());
+
   useEffect(() => {
     (async () => {
       await document.fonts.ready;
@@ -77,73 +78,11 @@ export const TrainingHeader = (props: Props): ReactElement | null => {
   );
 };
 
-type WonkyProp = {
-  fonts: Set<string>;
-  children: string;
-  isCap?: boolean;
-};
-
-const randomColor = () =>
-  `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-
-const randomOrientation = () => `${Math.floor(Math.random() * 90) - 45}`;
-
-const getRandomFont = (set: Set<string>): string => {
-  const items = Array.from(set);
-
-  return items[Math.floor(Math.random() * items.length)];
-};
-
-function useForceUpdate() {
-  const [_, setValue] = useState(0); // integer state
-
-  return () => setValue((value) => value + 1);
-}
-
-const Letter = ({
-  children,
-  fonts,
-  isCap = false,
-}: WonkyProp): ReactElement => {
-  // const flip = true;
-  const shouldWeFlip = (Math.random() + 0.5) >> 0;
-
-  const flip = shouldWeFlip
-    ? `
--moz-transform: scaleX(-1);
--webkit-transform: scaleX(-1);
--o-transform: scaleX(-1);
-transform: scaleX(-1);
--ms-filter: fliph; 
-filter: fliph;`
-    : "";
-
-  const handleForceUpdate = useForceUpdate();
-
-  return (
-    <span
-      onClick={handleForceUpdate}
-      className={css`
-        font-family: "${getRandomFont(fonts)}";
-        color: ${randomColor()};
-        display: inline-block;
-        transform: rotate(${randomOrientation()}deg);
-        padding: 0.5rem;
-        text-transform: uppercase;
-        font-size: ${isCap ? "6rem" : "4.5rem"};
-        cursor: pointer;
-        ${flip}
-      `}
-    >
-      {children}
-    </span>
-  );
-};
-
 const Header = styled("h1")`
   text-align: center;
   padding: 0;
   margin: 20px;
+  display: block;
 `;
 
 const fontCheck = new Set(
