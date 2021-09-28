@@ -65,6 +65,7 @@ export const DirectCachePage = () => {
         pets: petsInCache,
       },
     });
+
     if (carbageCollector) {
       client.cache.gc();
     }
