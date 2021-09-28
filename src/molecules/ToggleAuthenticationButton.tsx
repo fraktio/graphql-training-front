@@ -29,12 +29,14 @@ export const ToggleAuthenticationButton = () => {
   const handleLoginSucess = (data: LoginMutation) => {
     if (data.login.__typename === "LoginUserSuccess") {
       setIsLoggedIn(true);
+      localStorage.setItem("token", data.login.token);
     }
   };
 
   const handleLogoutSuccess = (data: LogoutMutation) => {
     if (data.logout) {
       setIsLoggedIn(false);
+      localStorage.removeItem("token");
     }
   };
 

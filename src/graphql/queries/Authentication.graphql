@@ -19,6 +19,7 @@ query AuthenticatedUser {
 mutation Login($input: LoginUserInput!) {
     login(input: $input) {
         ... on LoginUserSuccess {
+            token
             user {
                 ...AuthenticatedUser
             }

@@ -111,6 +111,7 @@ export type AuthenticatedUserResponse = AuthenticatedUserFailure | Authenticated
 
 export type AuthenticatedUserSuccess = {
   readonly __typename: 'AuthenticatedUserSuccess';
+  readonly token: Scalars['String'];
   readonly user: User;
 };
 
@@ -251,6 +252,7 @@ export type LoginUserResponse = LoginUserFailure | LoginUserSuccess;
 
 export type LoginUserSuccess = {
   readonly __typename: 'LoginUserSuccess';
+  readonly token: Scalars['String'];
   readonly user: User;
 };
 
@@ -572,7 +574,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { readonly __typename: 'Mutation', readonly login: { readonly __typename: 'LoginUserFailure', readonly success: boolean } | { readonly __typename: 'LoginUserSuccess', readonly user: { readonly __typename: 'User', readonly id: any, readonly username: string } } };
+export type LoginMutation = { readonly __typename: 'Mutation', readonly login: { readonly __typename: 'LoginUserFailure', readonly success: boolean } | { readonly __typename: 'LoginUserSuccess', readonly token: string, readonly user: { readonly __typename: 'User', readonly id: any, readonly username: string } } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -675,6 +677,7 @@ export const LoginDocument = gql`
     mutation Login($input: LoginUserInput!) {
   login(input: $input) {
     ... on LoginUserSuccess {
+      token
       user {
         ...AuthenticatedUser
       }
