@@ -63,6 +63,7 @@ export const Letter = ({
   isCap = false,
 }: WonkyProp): ReactElement => {
   const handleForceUpdate = useForceUpdate();
+
   const [intervalRandom, setIntervalRandom] = useState(0);
 
   useEffect(() => {
