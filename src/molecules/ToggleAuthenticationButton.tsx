@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "~/atoms/Button";
 import { LoadingIcon } from "~/atoms/LoadingIcon";
@@ -14,17 +14,22 @@ import {
 export const ToggleAuthenticationButton = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useAuthenticatedUserQuery({
+  const { data } = useAuthenticatedUserQuery({
     pollInterval: 5000,
-    onCompleted: (data) => {
-      setIsLoggedIn(
-        data.authenticatedUser.__typename === "AuthenticatedUserSuccess",
-      );
-    },
     onError: () => {
       setIsLoggedIn(false);
     },
   });
+
+  useEffect(() => {
+    if (!data?.authenticatedUser) {
+      return;
+    }
+
+    setIsLoggedIn(
+      data.authenticatedUser.__typename === "AuthenticatedUserSuccess",
+    );
+  }, [data]);
 
   const handleLoginSucess = (data: LoginMutation) => {
     if (data.login.__typename === "LoginUserSuccess") {
