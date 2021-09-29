@@ -33,6 +33,6 @@ export const PageContent = ({ children, isNarrow }: Props): ReactElement => (
     }}
   >
     <PageMaxWidthContent isNarrow={isNarrow}>{children}</PageMaxWidthContent>
-    <Footer />
   </div>
 );
+// <Footer />

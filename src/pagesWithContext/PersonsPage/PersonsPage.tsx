@@ -1,4 +1,3 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
 import React from "react";
 import { toast } from "react-toastify";
 
@@ -11,66 +10,44 @@ import { UsersGrid } from "~/atoms/UsersGrid";
 import { PersonForm, PersonHandler } from "~/atoms/form/PersonForm";
 import { H3 } from "~/atoms/typography/H3";
 import {
+  useNewestPersonsQuery,
+  useAddPersonMutation,
+  NewestPersonsDocument,
   NewestPersonsQuery,
-  AddPersonMutation,
-  AddPersonMutationVariables,
 } from "~/generated/graphql";
 import { Header } from "~/molecules/Header";
 import { PersonCard } from "~/molecules/PersonCard";
 
-export const NewestPersonsDocument = gql`
-  fragment Adult on Adult {
-    employers {
-      id
-      name
-    }
-  }
-
-  query NewestPersons {
-    newestPersons {
-      firstName
-      lastName
-      id
-      birthday
-      age @client
-      ...Adult
-    }
-  }
-`;
-
-export const AddPersonDocument = gql`
-  mutation AddPerson($input: AddPersonInput!) {
-    addPerson(input: $input) {
-      ... on AddPersonSuccess {
-        person {
-          id
-          firstName
-          lastName
-          birthday
-        }
-      }
-      ... on UniqueConstraintViolationFailure {
-        message
-        field
-      }
-    }
-  }
-`;
-
 export const PersonsPage = () => {
-  const { loading, data, refetch } = useQuery<NewestPersonsQuery>(
-    NewestPersonsDocument,
-    { onError: () => personAddedFailureToast() },
-  );
+  const { loading, data } = useNewestPersonsQuery({
+    onError: () => personAddedFailureToast(),
+  });
 
-  const [addPersonMutation] = useMutation<
-    AddPersonMutation,
-    AddPersonMutationVariables
-  >(AddPersonDocument, {
+  const [addPersonMutation] = useAddPersonMutation({
+    update: (cache, { data }) => {
+      const newPerson = data?.addPerson;
+      if (newPerson?.__typename !== "AddPersonSuccess") {
+        return;
+      }
+
+      const query = cache.readQuery<NewestPersonsQuery>({
+        query: NewestPersonsDocument,
+      });
+      if (!query) {
+        return;
+      }
+      const { newestPersons } = query;
+      cache.writeQuery({
+        query: NewestPersonsDocument,
+        data: {
+          newestPersons: [newPerson.person, ...newestPersons],
+        },
+      });
+    },
+
     onCompleted: (data) => {
       if (data.addPerson.__typename === "AddPersonSuccess") {
         personAddedSuccessToast();
-        refetch();
       }
     },
     onError: (error) => {

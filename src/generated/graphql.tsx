@@ -111,7 +111,6 @@ export type AuthenticatedUserResponse = AuthenticatedUserFailure | Authenticated
 
 export type AuthenticatedUserSuccess = {
   readonly __typename: 'AuthenticatedUserSuccess';
-  readonly token: Scalars['String'];
   readonly user: User;
 };
 
