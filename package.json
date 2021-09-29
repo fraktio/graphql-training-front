@@ -29,6 +29,7 @@
     "faker": "^5.5.3",
     "finnish-ssn": "^2.0.4",
     "graphql": "^15.5.3",
+    "libphonenumber-js": "^1.9.34",
     "luxon": "^2.0.2",
     "next": "^11.1.2",
     "react": "^17.0.2",

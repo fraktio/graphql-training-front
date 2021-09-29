@@ -33,3 +33,35 @@ mutation AddPerson($input: AddPersonInput!) {
     }
   }
 }
+
+fragment FullPerson on Person {
+  id
+  firstName
+  lastName
+  phone
+  email
+  nationality
+  birthday
+  gender
+  personalIdentityCode
+}
+
+query Person($input: PersonInput!) {
+  person(input: $input) {
+    ... FullPerson
+  }
+}
+
+mutation EditPerson($input: EditPersonInput!) {
+  editPerson(input: $input) {
+    ... on EditPersonSuccess {
+      person {
+        ... FullPerson
+      }
+    }
+    ... on UniqueConstraintViolationFailure {
+      message
+      field
+    }
+  }
+}

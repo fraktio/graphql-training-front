@@ -62,22 +62,10 @@ export type AddEmployeeSuccess = {
 };
 
 export type AddPersonInput = {
-  readonly person: AddPersonPersonInput;
+  readonly person: MutatePersonInput;
 };
 
 export type AddPersonOutput = AddPersonSuccess | UniqueConstraintViolationFailure;
-
-export type AddPersonPersonInput = {
-  readonly birthday: Scalars['Date'];
-  readonly email: Scalars['Email'];
-  readonly firstName: Scalars['String'];
-  readonly gender: Gender;
-  /** Last name has to be minimum of 1 chracters and maximum of 50 */
-  readonly lastName: Maybe<Scalars['StringWithMaxLength50AndMinLength1']>;
-  readonly nationality: Scalars['CountryCode'];
-  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
-  readonly phone: Scalars['Phone'];
-};
 
 export type AddPersonSuccess = {
   readonly __typename: 'AddPersonSuccess';
@@ -94,9 +82,11 @@ export type Adult = Person & {
   readonly firstName: Scalars['String'];
   readonly gender: Gender;
   readonly id: Scalars['UUID'];
+  /** Requires authentication and ADMIN privileges */
+  readonly internalId: Scalars['ID'];
   readonly lastName: Scalars['String'];
   readonly nationality: Scalars['CountryCode'];
-  /** Requires authentication and ADMIN privileges */
+  /** Requires authentication and USER privileges */
   readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
   readonly phone: Maybe<Scalars['Phone']>;
   readonly timestamp: Timestamp;
@@ -185,7 +175,7 @@ export type EditCompanySuccess = {
 
 export type EditPersonInput = {
   readonly id: Scalars['UUID'];
-  readonly person: AddPersonPersonInput;
+  readonly person: MutatePersonInput;
 };
 
 export type EditPersonOutput = EditPersonSuccess | NotFoundFailure | UniqueConstraintViolationFailure;
@@ -253,6 +243,18 @@ export type LoginUserSuccess = {
   readonly __typename: 'LoginUserSuccess';
   readonly token: Scalars['String'];
   readonly user: User;
+};
+
+export type MutatePersonInput = {
+  readonly birthday: Scalars['Date'];
+  readonly email: Scalars['Email'];
+  readonly firstName: Scalars['String'];
+  readonly gender: Gender;
+  /** Last name has to be minimum of 1 chracters and maximum of 50 */
+  readonly lastName: Maybe<Scalars['StringWithMaxLength50AndMinLength1']>;
+  readonly nationality: Scalars['CountryCode'];
+  readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
+  readonly phone: Scalars['Phone'];
 };
 
 export type Mutation = {
@@ -361,9 +363,11 @@ export type Person = {
   readonly firstName: Scalars['String'];
   readonly gender: Gender;
   readonly id: Scalars['UUID'];
+  /** Requires authentication and ADMIN privileges */
+  readonly internalId: Scalars['ID'];
   readonly lastName: Scalars['String'];
   readonly nationality: Scalars['CountryCode'];
-  /** Requires authentication and ADMIN privileges */
+  /** Requires authentication and USER privileges */
   readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
   readonly phone: Maybe<Scalars['Phone']>;
   readonly timestamp: Timestamp;
@@ -540,9 +544,11 @@ export type Underage = Person & {
   readonly firstName: Scalars['String'];
   readonly gender: Gender;
   readonly id: Scalars['UUID'];
+  /** Requires authentication and ADMIN privileges */
+  readonly internalId: Scalars['ID'];
   readonly lastName: Scalars['String'];
   readonly nationality: Scalars['CountryCode'];
-  /** Requires authentication and ADMIN privileges */
+  /** Requires authentication and USER privileges */
   readonly personalIdentityCode: Scalars['PersonalIdentityCode'];
   readonly phone: Maybe<Scalars['Phone']>;
   readonly timestamp: Timestamp;
@@ -594,11 +600,31 @@ export type AddPersonMutationVariables = Exact<{
 
 export type AddPersonMutation = { readonly __typename: 'Mutation', readonly addPerson: { readonly __typename: 'AddPersonSuccess', readonly person: { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } | { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any } } | { readonly __typename: 'UniqueConstraintViolationFailure', readonly message: string, readonly field: string } };
 
-type Person_Adult_Fragment = { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> };
+type FullPerson_Adult_Fragment = { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly phone: Maybe<any>, readonly email: any, readonly nationality: any, readonly birthday: any, readonly gender: Gender, readonly personalIdentityCode: any };
 
-type Person_Underage_Fragment = { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly age: Maybe<number> };
+type FullPerson_Underage_Fragment = { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly phone: Maybe<any>, readonly email: any, readonly nationality: any, readonly birthday: any, readonly gender: Gender, readonly personalIdentityCode: any };
 
-export type PersonFragment = Person_Adult_Fragment | Person_Underage_Fragment;
+export type FullPersonFragment = FullPerson_Adult_Fragment | FullPerson_Underage_Fragment;
+
+export type PersonQueryVariables = Exact<{
+  input: PersonInput;
+}>;
+
+
+export type PersonQuery = { readonly __typename: 'Query', readonly person: { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly phone: Maybe<any>, readonly email: any, readonly nationality: any, readonly birthday: any, readonly gender: Gender, readonly personalIdentityCode: any } | { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly phone: Maybe<any>, readonly email: any, readonly nationality: any, readonly birthday: any, readonly gender: Gender, readonly personalIdentityCode: any } };
+
+export type EditPersonMutationVariables = Exact<{
+  input: EditPersonInput;
+}>;
+
+
+export type EditPersonMutation = { readonly __typename: 'Mutation', readonly editPerson: { readonly __typename: 'EditPersonSuccess', readonly person: { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly phone: Maybe<any>, readonly email: any, readonly nationality: any, readonly birthday: any, readonly gender: Gender, readonly personalIdentityCode: any } | { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly phone: Maybe<any>, readonly email: any, readonly nationality: any, readonly birthday: any, readonly gender: Gender, readonly personalIdentityCode: any } } | { readonly __typename: 'NotFoundFailure' } | { readonly __typename: 'UniqueConstraintViolationFailure', readonly message: string, readonly field: string } };
+
+type PaginatedPerson_Adult_Fragment = { readonly __typename: 'Adult', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly age: Maybe<number>, readonly employers: ReadonlyArray<{ readonly __typename: 'Company', readonly id: any, readonly name: string }> };
+
+type PaginatedPerson_Underage_Fragment = { readonly __typename: 'Underage', readonly id: any, readonly firstName: string, readonly lastName: string, readonly birthday: any, readonly age: Maybe<number> };
+
+export type PaginatedPersonFragment = PaginatedPerson_Adult_Fragment | PaginatedPerson_Underage_Fragment;
 
 export type PaginatedPersonsQueryVariables = Exact<{
   paginationInput: PaginationInput;
@@ -613,6 +639,19 @@ export const AuthenticatedUserFragmentDoc = gql`
   username
 }
     `;
+export const FullPersonFragmentDoc = gql`
+    fragment FullPerson on Person {
+  id
+  firstName
+  lastName
+  phone
+  email
+  nationality
+  birthday
+  gender
+  personalIdentityCode
+}
+    `;
 export const AdultFragmentDoc = gql`
     fragment Adult on Adult {
   employers {
@@ -621,8 +660,8 @@ export const AdultFragmentDoc = gql`
   }
 }
     `;
-export const PersonFragmentDoc = gql`
-    fragment Person on Person {
+export const PaginatedPersonFragmentDoc = gql`
+    fragment PaginatedPerson on Person {
   id
   firstName
   lastName
@@ -826,6 +865,82 @@ export function useAddPersonMutation(baseOptions?: Apollo.MutationHookOptions<Ad
 export type AddPersonMutationHookResult = ReturnType<typeof useAddPersonMutation>;
 export type AddPersonMutationResult = Apollo.MutationResult<AddPersonMutation>;
 export type AddPersonMutationOptions = Apollo.BaseMutationOptions<AddPersonMutation, AddPersonMutationVariables>;
+export const PersonDocument = gql`
+    query Person($input: PersonInput!) {
+  person(input: $input) {
+    ...FullPerson
+  }
+}
+    ${FullPersonFragmentDoc}`;
+
+/**
+ * __usePersonQuery__
+ *
+ * To run a query within a React component, call `usePersonQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePersonQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePersonQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function usePersonQuery(baseOptions: Apollo.QueryHookOptions<PersonQuery, PersonQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PersonQuery, PersonQueryVariables>(PersonDocument, options);
+      }
+export function usePersonLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PersonQuery, PersonQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PersonQuery, PersonQueryVariables>(PersonDocument, options);
+        }
+export type PersonQueryHookResult = ReturnType<typeof usePersonQuery>;
+export type PersonLazyQueryHookResult = ReturnType<typeof usePersonLazyQuery>;
+export type PersonQueryResult = Apollo.QueryResult<PersonQuery, PersonQueryVariables>;
+export const EditPersonDocument = gql`
+    mutation EditPerson($input: EditPersonInput!) {
+  editPerson(input: $input) {
+    ... on EditPersonSuccess {
+      person {
+        ...FullPerson
+      }
+    }
+    ... on UniqueConstraintViolationFailure {
+      message
+      field
+    }
+  }
+}
+    ${FullPersonFragmentDoc}`;
+export type EditPersonMutationFn = Apollo.MutationFunction<EditPersonMutation, EditPersonMutationVariables>;
+
+/**
+ * __useEditPersonMutation__
+ *
+ * To run a mutation, you first call `useEditPersonMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditPersonMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editPersonMutation, { data, loading, error }] = useEditPersonMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEditPersonMutation(baseOptions?: Apollo.MutationHookOptions<EditPersonMutation, EditPersonMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditPersonMutation, EditPersonMutationVariables>(EditPersonDocument, options);
+      }
+export type EditPersonMutationHookResult = ReturnType<typeof useEditPersonMutation>;
+export type EditPersonMutationResult = Apollo.MutationResult<EditPersonMutation>;
+export type EditPersonMutationOptions = Apollo.BaseMutationOptions<EditPersonMutation, EditPersonMutationVariables>;
 export const PaginatedPersonsDocument = gql`
     query PaginatedPersons($paginationInput: PaginationInput!) {
   persons(pagination: $paginationInput) {
@@ -836,13 +951,13 @@ export const PaginatedPersonsDocument = gql`
       edges {
         cursor
         node {
-          ...Person
+          ...PaginatedPerson
         }
       }
     }
   }
 }
-    ${PersonFragmentDoc}`;
+    ${PaginatedPersonFragmentDoc}`;
 
 /**
  * __usePaginatedPersonsQuery__

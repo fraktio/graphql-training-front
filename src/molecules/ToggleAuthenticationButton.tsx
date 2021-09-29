@@ -15,7 +15,6 @@ export const ToggleAuthenticationButton = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const { data } = useAuthenticatedUserQuery({
-    pollInterval: 5000,
     onError: () => {
       setIsLoggedIn(false);
     },

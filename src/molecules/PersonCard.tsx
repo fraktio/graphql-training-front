@@ -1,11 +1,14 @@
-import React, { ReactElement } from "react";
+import { ApolloCache } from "@apollo/client";
+import React, { ReactElement, useState } from "react";
 
 import { Button } from "~/atoms/Button";
+import { ButtonsGrid } from "~/atoms/ButtonsGrid";
 import { Card } from "~/atoms/Card";
 import { Paragraph } from "~/atoms/typography/Paragraph";
 import { scale } from "~/design";
-import { Maybe } from "~/generated/graphql";
+import { EditPersonMutation, Maybe } from "~/generated/graphql";
 import { Company, CompanyCard } from "~/molecules/CompanyCard";
+import { EditPerson } from "~/molecules/EditPerson";
 
 type PersonType = {
   readonly id: string;
@@ -31,20 +34,36 @@ export type Props<U extends Person = Person> = {
 };
 
 export const PersonCard = ({ person, onDelete }: Props): ReactElement => {
+  const [editOpen, setEditOpen] = useState(false);
   const fullName = `${person.firstName} ${person.lastName}`;
 
-  const handleOnClick = () => {
+  const handleOnDelete = () => {
     if (onDelete) {
       onDelete(person);
     }
   };
 
+  const onEditPerson = (cache: ApolloCache<any>, data: EditPersonMutation) => {
+    setEditOpen(false);
+  };
+
+  const handleSetEditOpen = () => {
+    setEditOpen(!editOpen);
+  };
+
+  if (editOpen) {
+    return (
+      <Card noMargin>
+        <Button onClick={handleSetEditOpen}>Close</Button>
+        <EditPerson person={person} handleOnEditPerson={onEditPerson} />
+      </Card>
+    );
+  }
+
   return (
     <Card noMargin>
       <Paragraph>{fullName}</Paragraph>
       <Paragraph>Age: {person.age}</Paragraph>
-
-      {onDelete && <Button onClick={handleOnClick}>Delete</Button>}
 
       {person.__typename === "Adult" && Boolean(person.employers.length) && (
         <div css={{ marginTop: scale(6) }}>
@@ -54,6 +73,10 @@ export const PersonCard = ({ person, onDelete }: Props): ReactElement => {
           ))}
         </div>
       )}
+      <ButtonsGrid css={{ display: "grid", justifyContent: "end" }}>
+        <Button onClick={handleSetEditOpen}>Edit</Button>
+        {onDelete && <Button onClick={handleOnDelete}>Delete</Button>}
+      </ButtonsGrid>
     </Card>
   );
 };
